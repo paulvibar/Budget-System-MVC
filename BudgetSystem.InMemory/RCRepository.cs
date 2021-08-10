@@ -30,7 +30,7 @@ namespace BudgetSystem.InMemory
 
         public void Insert(ResponsibilityCenter r)
         {
-            rc.Add(r);
+            RCs.Add(r);
         }
 
         public void Update(ResponsibilityCenter responsibilitycenter)
@@ -47,7 +47,7 @@ namespace BudgetSystem.InMemory
             }
         }
 
-        public ResponsibilityCenter Find(string Id)
+        public ResponsibilityCenter Find(int Id)
         {
             ResponsibilityCenter rc = RCs.Find(r => r.Id == Id);
 
@@ -66,9 +66,9 @@ namespace BudgetSystem.InMemory
             return RCs.AsQueryable();
         }
 
-        public void Delete(ResponsibilityCenter responsibilitycenter)
+        public void Delete(int Id)
         {
-            ResponsibilityCenter rcToDelete = RCs.Find(r => r.Id == responsibilitycenter.Id);
+            ResponsibilityCenter rcToDelete = RCs.Find(r => r.Id == Id);
 
             if (rcToDelete != null)
             {

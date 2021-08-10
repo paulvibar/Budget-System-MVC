@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace BudgetSystem.Core.Models
 {
-    public class ResponsibilityCenter
+    public class ResponsibilityCenter : BaseEntity
     {
-        [DisplayName("Responsibility Center")]
-        public string Id { get; set; }
+        [DisplayName("Responsibility Center Code")]
+        public string Code { get; set; }
         [DisplayName("Office Name")]
         public string Name { get; set; }
         public string Acronym { get; set; }
-        [DisplayName("P/A/P Code")]
+        [DisplayName("P/A/P")]
         public string PAP { get; set; }
         public string Status { get; set; }
 

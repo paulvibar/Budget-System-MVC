@@ -170,6 +170,8 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\PAPManagerController.cs" />
+    <Compile Include="Controllers\RCManagerController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -235,6 +237,14 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\RCManager\Index.cshtml" />
+    <Content Include="Views\RCManager\Create.cshtml" />
+    <Content Include="Views\RCManager\Edit.cshtml" />
+    <Content Include="Views\RCManager\Delete.cshtml" />
+    <Content Include="Views\PAPManager\Index.cshtml" />
+    <Content Include="Views\PAPManager\Create.cshtml" />
+    <Content Include="Views\PAPManager\Edit.cshtml" />
+    <Content Include="Views\PAPManager\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -251,6 +261,24 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.4.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BudgetSystem.Core\BudgetSystem.Core.csproj">
+      <Project>{2abbe95c-5e13-4454-a43d-44a0892dc447}</Project>
+      <Name>BudgetSystem.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BudgetSystem.DataAccess.SQL\BudgetSystem.DataAccess.SQL.csproj">
+      <Project>{b923d4c7-dcef-4a68-a404-ce69660dd8fc}</Project>
+      <Name>BudgetSystem.DataAccess.SQL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BudgetSystem.InMemory\BudgetSystem.DataAccess.InMemory.csproj">
+      <Project>{e13e96f2-fa49-44d9-8702-c26616029d48}</Project>
+      <Name>BudgetSystem.DataAccess.InMemory</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BudgetSystem.Services\BudgetSystem.Services.csproj">
+      <Project>{736c9eab-1972-4c16-ac79-ce039e2164e9}</Project>
+      <Name>BudgetSystem.Services</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
