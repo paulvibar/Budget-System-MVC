@@ -1,0 +1,63 @@
+﻿@model IEnumerable<BudgetSystem.Core.ViewModels.UACSItemViewModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.UACS.Code)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UACS.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UACSClassification.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UACSClass.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UACSGroup.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UACSObject.Description)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.UACS.Code)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UACS.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UACSClassification.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UACSClass.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UACSGroup.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UACSObject.Description)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.UACS.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.UACS.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.UACS.Id })
+        </td>
+    </tr>
+}
+
+</table>

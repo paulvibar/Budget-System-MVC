@@ -43,9 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="InMemoryRepository.cs" />
-    <Compile Include="PAPRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RCRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BudgetSystem.Core\BudgetSystem.Core.csproj">

@@ -31,7 +31,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -41,7 +48,57 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataContext.cs" />
+    <Compile Include="Migrations\202108101258337_initial.cs" />
+    <Compile Include="Migrations\202108101258337_initial.Designer.cs">
+      <DependentUpon>202108101258337_initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202108111727315_AddingUACS.cs" />
+    <Compile Include="Migrations\202108111727315_AddingUACS.Designer.cs">
+      <DependentUpon>202108111727315_AddingUACS.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202108111731433_AddedUACS.cs" />
+    <Compile Include="Migrations\202108111731433_AddedUACS.Designer.cs">
+      <DependentUpon>202108111731433_AddedUACS.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202108111855370_FixUACS.cs" />
+    <Compile Include="Migrations\202108111855370_FixUACS.Designer.cs">
+      <DependentUpon>202108111855370_FixUACS.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202108120922127_AddedOtherTables.cs" />
+    <Compile Include="Migrations\202108120922127_AddedOtherTables.Designer.cs">
+      <DependentUpon>202108120922127_AddedOtherTables.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SQLRepository.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BudgetSystem.Core\BudgetSystem.Core.csproj">
+      <Project>{2ABBE95C-5E13-4454-A43D-44A0892DC447}</Project>
+      <Name>BudgetSystem.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202108101258337_initial.resx">
+      <DependentUpon>202108101258337_initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202108111727315_AddingUACS.resx">
+      <DependentUpon>202108111727315_AddingUACS.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202108111731433_AddedUACS.resx">
+      <DependentUpon>202108111731433_AddedUACS.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202108111855370_FixUACS.resx">
+      <DependentUpon>202108111855370_FixUACS.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202108120922127_AddedOtherTables.resx">
+      <DependentUpon>202108120922127_AddedOtherTables.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

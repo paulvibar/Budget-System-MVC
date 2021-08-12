@@ -41,14 +41,14 @@
         <div class="form-group">
             @Html.LabelFor(model => model.RC.PAP, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.RC.PAP, new SelectList(Model.PAPs, "Id", "Name"), new {htmlAttributes = new {@class = "form-control"}})
+                @Html.DropDownListFor(model => model.RC.PAP, new SelectList(Model.PAPs, "Code", "Name"), new {@class = "form-control"})
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.RC.Status, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.RC.Status, new SelectList(Model.PAPs, "Status", "Status"), new { htmlAttributes = new { @class = "form-control" } })
+                @Html.DropDownListFor(model => model.RC.Status, new SelectList(Model.Identifiers, "Status", "Status"), new { @class = "form-control" } )
             </div>
         </div>
 

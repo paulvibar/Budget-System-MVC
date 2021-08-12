@@ -24,6 +24,7 @@
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("Responsibility Center Admin", "Index", "RCManager")</li>
                     <li>@Html.ActionLink("MFO/PAP Admin", "Index", "PAPManager")</li>
+                    <li>@Html.ActionLink("UACS Admin", "Index", "UACSManager")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -40,5 +41,6 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+    
 </body>
 </html>

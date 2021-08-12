@@ -1,4 +1,6 @@
-﻿using BudgetSystem.Core.Models;
+﻿using BudgetSystem.Core.Contracts;
+using BudgetSystem.Core.Models;
+using BudgetSystem.Core.ViewModels;
 using BudgetSystem.InMemory;
 using System;
 using System.Collections.Generic;
@@ -10,12 +12,14 @@ namespace BudgetSystem.WebUI.Controllers
 {
     public class PAPManagerController : Controller
     {
-        InMemoryRepository<MFOPAP> context;
+        IRepository<MFOPAP> context;
+        IRepository<Identifier> IDcontext;
         // GET: RCManager
 
-        public PAPManagerController()
+        public PAPManagerController(IRepository<MFOPAP> context, IRepository<Identifier> IDcontext)
         {
-            context = new InMemoryRepository<MFOPAP>();
+            this.context = context;
+            this.IDcontext = IDcontext;
         }
         public ActionResult Index()
         {
@@ -25,9 +29,12 @@ namespace BudgetSystem.WebUI.Controllers
 
         public ActionResult Create()
         {
-            MFOPAP PAP = new MFOPAP();
+            PAPManagerViewModel viewModel = new PAPManagerViewModel();
 
-            return View(PAP);
+            viewModel.PAP = new MFOPAP();
+            viewModel.Identifiers = IDcontext.Collection();
+
+            return View(viewModel);
         }
 
         [HttpPost]
@@ -54,7 +61,12 @@ namespace BudgetSystem.WebUI.Controllers
             }
             else
             {
-                return View(PAP);
+                PAPManagerViewModel viewModel = new PAPManagerViewModel();
+
+                viewModel.PAP = new MFOPAP();
+                viewModel.Identifiers = IDcontext.Collection();
+
+                return View(viewModel);
             }
         }
 
@@ -74,7 +86,7 @@ namespace BudgetSystem.WebUI.Controllers
                 }
                 else
                 {
-                    EditPAP.Id = PAP.Id;
+                    EditPAP.Code = PAP.Code;
                     EditPAP.Name = PAP.Name;
                     EditPAP.Type = PAP.Type;
                     EditPAP.Status = PAP.Status;

@@ -12,6 +12,7 @@ namespace BudgetSystem.Core.ViewModels
         public ResponsibilityCenter RC { get; set; }
 
         public IEnumerable<MFOPAP> PAPs { get; set; }
+        public IEnumerable<Identifier> Identifiers { get; set; }
 
     }
 }

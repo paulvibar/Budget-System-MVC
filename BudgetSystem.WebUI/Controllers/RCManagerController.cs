@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using BudgetSystem.Core.Contracts;
 using BudgetSystem.Core.Models;
 using BudgetSystem.Core.ViewModels;
 using BudgetSystem.InMemory;
@@ -11,14 +12,16 @@ namespace BudgetSystem.WebUI.Controllers
 {
     public class RCManagerController : Controller
     {
-        InMemoryRepository<ResponsibilityCenter> context;
-        InMemoryRepository<MFOPAP> PAPcontext;
+        IRepository<ResponsibilityCenter> context;
+        IRepository<MFOPAP> PAPcontext;
+        IRepository<Identifier> Identifiercontext;
         // GET: RCManager
 
-        public RCManagerController()
+        public RCManagerController(IRepository<ResponsibilityCenter> RCContext, IRepository<MFOPAP> PAPContext, IRepository<Identifier> Status)
         {
-            context = new InMemoryRepository<ResponsibilityCenter>();
-            PAPcontext = new InMemoryRepository<MFOPAP>();
+            context = RCContext;
+            PAPcontext = PAPContext;
+            Identifiercontext = Status;
         }
         public ActionResult Index()
         {
@@ -32,6 +35,7 @@ namespace BudgetSystem.WebUI.Controllers
 
             viewModel.RC = new ResponsibilityCenter();
             viewModel.PAPs = PAPcontext.Collection();
+            viewModel.Identifiers = Identifiercontext.Collection();
             return View(viewModel);
         }
 
@@ -63,6 +67,7 @@ namespace BudgetSystem.WebUI.Controllers
 
                 viewModel.RC = RC;
                 viewModel.PAPs = PAPcontext.Collection();
+                viewModel.Identifiers = Identifiercontext.Collection();
                 return View(viewModel);
             }
         }
