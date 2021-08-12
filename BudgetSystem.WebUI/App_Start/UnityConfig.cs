@@ -57,6 +57,8 @@ namespace BudgetSystem.WebUI
             container.RegisterType<IRepository<BoxBSignatory>, SQLRepository<BoxBSignatory>>();
             container.RegisterType<IRepository<FundCluster>, SQLRepository<FundCluster>>();
             container.RegisterType<IRepository<FundSource>, SQLRepository<FundSource>>();
+            container.RegisterType<IRepository<ORSMainInformation>, SQLRepository<ORSMainInformation>>();
+            container.RegisterType<IRepository<ORSDetailsInformation>, SQLRepository<ORSDetailsInformation>>();
         }
     }
 }

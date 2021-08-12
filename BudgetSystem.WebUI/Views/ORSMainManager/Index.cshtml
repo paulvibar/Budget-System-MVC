@@ -1,0 +1,69 @@
+﻿@model IEnumerable<BudgetSystem.Core.ViewModels.ORSItemViewModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ORSMain.Id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ORSMain.Payee)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ORSMain.Office)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ORSMain.Address)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ORSMain.Particulars)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ORSMain.Date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ORSMain.Processor)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ORSMain.Id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ORSMain.Payee)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ORSMain.Office)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ORSMain.Address)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ORSMain.Particulars)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ORSMain.Date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ORSMain.Processor)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ORSMain.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ORSMain.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ORSMain.Id })
+        </td>
+    </tr>
+}
+
+</table>

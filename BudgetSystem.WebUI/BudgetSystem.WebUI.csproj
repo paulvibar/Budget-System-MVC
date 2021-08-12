@@ -191,6 +191,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\ORSMainManagerController.cs" />
     <Compile Include="Controllers\PAPManagerController.cs" />
     <Compile Include="Controllers\RCManagerController.cs" />
     <Compile Include="Controllers\UACSManagerController.cs" />
@@ -397,6 +398,11 @@
     <Content Include="Views\PAPManager\Edit.cshtml" />
     <Content Include="Views\UACSManager\Index.cshtml" />
     <Content Include="Views\UACSManager\Create.cshtml" />
+    <Content Include="Views\ORSMainManager\Index.cshtml" />
+    <Content Include="Views\ORSMainManager\Create.cshtml" />
+    <Content Include="Views\ORSMainManager\Edit.cshtml" />
+    <Content Include="Views\ORSMainManager\Delete.cshtml" />
+    <Content Include="Views\ORSMainManager\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

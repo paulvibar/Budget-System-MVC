@@ -48,6 +48,8 @@
     <Compile Include="Models\FundCluster.cs" />
     <Compile Include="Models\FundSource.cs" />
     <Compile Include="Models\MFOPAP.cs" />
+    <Compile Include="Models\ORSDetailsInformation.cs" />
+    <Compile Include="Models\ORSMainInformation.cs" />
     <Compile Include="Models\ResponsibilityCenter.cs" />
     <Compile Include="Models\Identifier.cs" />
     <Compile Include="Models\UACS.cs" />
@@ -56,6 +58,8 @@
     <Compile Include="Models\UACSGroup.cs" />
     <Compile Include="Models\UACSObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\ORSItemViewModel.cs" />
+    <Compile Include="ViewModels\ORSMainManagerViewModel.cs" />
     <Compile Include="ViewModels\PAPManagerViewModel.cs" />
     <Compile Include="ViewModels\RCManagerViewModel.cs" />
     <Compile Include="ViewModels\UACSItemViewModel.cs" />

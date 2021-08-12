@@ -26,5 +26,7 @@ namespace BudgetSystem.DataAccess.SQL
         public DbSet<BoxBSignatory> BoxBSignatory { get; set; }
         public DbSet<FundCluster> FundCluster { get; set; }
         public DbSet<FundSource> FundSource { get; set; }
+        public DbSet<ORSMainInformation> ORSMainInformation { get; set; }
+        public DbSet<ORSDetailsInformation> ORSDetailsInformation { get; set; }
     }
 }
