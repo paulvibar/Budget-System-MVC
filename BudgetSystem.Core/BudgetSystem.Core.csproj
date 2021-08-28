@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Contracts\IORSDetailsRepository.cs" />
     <Compile Include="Contracts\IRepository.cs" />
     <Compile Include="Models\BaseEntity.cs" />
     <Compile Include="Models\BoxBSignatory.cs" />
@@ -58,6 +59,8 @@
     <Compile Include="Models\UACSGroup.cs" />
     <Compile Include="Models\UACSObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\ORSDetailsItemViewModel.cs" />
+    <Compile Include="ViewModels\ORSDetailsManagerViewModel.cs" />
     <Compile Include="ViewModels\ORSItemViewModel.cs" />
     <Compile Include="ViewModels\ORSMainManagerViewModel.cs" />
     <Compile Include="ViewModels\PAPManagerViewModel.cs" />

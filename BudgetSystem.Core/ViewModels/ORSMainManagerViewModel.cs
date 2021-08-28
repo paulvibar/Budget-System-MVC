@@ -10,9 +10,13 @@ namespace BudgetSystem.Core.ViewModels
     public class ORSMainManagerViewModel
     {
         public ORSMainInformation ORSMain { get; set; }
+        public ORSDetailsInformation ORSDetails { get; set; }
+        public List<ORSItemViewModel> ListORSMain { get; set; }
+        public List<ORSDetailsItemViewModel> ListORSDetails { get; set; }
         public IEnumerable<UACSClass> AllotmentClass { get; set; }
         public IEnumerable<FundSource> FundSource { get; set; }
         public IEnumerable<FundCluster> FundCluster { get; set; }
         public IEnumerable<BoxBSignatory> BoxB { get; set; }
+
     }
 }

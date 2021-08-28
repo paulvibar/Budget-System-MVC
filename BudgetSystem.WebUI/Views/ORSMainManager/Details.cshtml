@@ -1,4 +1,4 @@
-﻿@model BudgetSystem.Core.Models.ORSMainInformation
+﻿@model BudgetSystem.Core.ViewModels.ORSMainManagerViewModel
 
 @{
     ViewBag.Title = "Details";
@@ -6,117 +6,157 @@
 
 <h2>Details</h2>
 
+
 <div>
     <h4>ORSMainInformation</h4>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Date)
-        </dt>
+    @foreach (var item in Model.ListORSMain)
+    {
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.ORSMain.Date)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Date)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.ORSMain.Date)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.AllotmentCode)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.ORSMain.AllotmentCode)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.AllotmentCode)
-        </dd>
+            <dd>
+                @Html.DisplayFor(modelItem => item.UACSClass.Caption)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.FundSource)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.ORSMain.FundSource)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.FundSource)
-        </dd>
+            <dd>
+                @Html.DisplayFor(modelItem => item.FundSource.Caption)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.FundCluster)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.ORSMain.FundCluster)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.FundCluster)
-        </dd>
+            <dd>
+                @Html.DisplayFor(modelItem => item.FundCluster.Caption)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Payee)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.ORSMain.Payee)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Payee)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.ORSMain.Payee)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Office)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.ORSMain.Office)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Office)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.ORSMain.Office)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Address)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.ORSMain.Address)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Address)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.ORSMain.Address)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Particulars)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.ORSMain.Particulars)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Particulars)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.ORSMain.Particulars)
+            </dd>
+        </dl>
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.ORSDetails.RCId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ORSDetails.PAPId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ORSDetails.UACSId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ORSDetails.Amount)
+                </th>
+            </tr>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.BoxASignatory)
-        </dt>
+            @foreach (var item2 in Model.ListORSDetails)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item2.RC.Code)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item2.MFOPAP.Code)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item2.UACS.Code)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item2.ORSDetails.Amount)
+                    </td>
+                </tr>
+            }
 
-        <dd>
-            @Html.DisplayFor(model => model.BoxASignatory)
-        </dd>
+        </table>
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.ORSMain.BoxASignatory)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.BoxAPosition)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.ORSMain.BoxASignatory)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.BoxAPosition)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.ORSMain.BoxAPosition)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.BoxBSignatory)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.ORSMain.BoxAPosition)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.BoxBSignatory)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.ORSMain.BoxBSignatory)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.BoxBPosition)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.ORSMain.BoxBSignatory)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.BoxBPosition)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.ORSMain.BoxBPosition)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Processor)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.ORSMain.BoxBPosition)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Processor)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.ORSMain.Processor)
+            </dt>
 
-    </dl>
+            <dd>
+                @Html.DisplayFor(model => model.ORSMain.Processor)
+            </dd>
+
+        </dl>
+    }
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ORSMain.Id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>

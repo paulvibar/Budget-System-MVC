@@ -63,7 +63,7 @@ namespace BudgetSystem.WebUI.Controllers
             {
                 PAPManagerViewModel viewModel = new PAPManagerViewModel();
 
-                viewModel.PAP = new MFOPAP();
+                viewModel.PAP = PAP;
                 viewModel.Identifiers = IDcontext.Collection();
 
                 return View(viewModel);

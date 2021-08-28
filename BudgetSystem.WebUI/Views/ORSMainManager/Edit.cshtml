@@ -28,21 +28,21 @@
         <div class="form-group">
             @Html.LabelFor(model => model.ORSMain.AllotmentCode, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.ORSMain.AllotmentCode, new SelectList(Model.AllotmentClass, "AllotmentCode", "Description"), new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.ORSMain.AllotmentCode, new SelectList(Model.AllotmentClass, "AllotmentCode", "Caption"), new { @class = "form-control" })
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.ORSMain.FundSource, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.ORSMain.FundSource, new SelectList(Model.FundSource, "Code", "Description"), new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.ORSMain.FundSource, new SelectList(Model.FundSource, "Code", "Caption"), new { @class = "form-control" })
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.ORSMain.FundCluster, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.ORSMain.FundCluster, new SelectList(Model.FundCluster, "Code", "Description"), new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.ORSMain.FundCluster, new SelectList(Model.FundCluster, "Code", "Caption"), new { @class = "form-control" })
             </div>
         </div>
 
@@ -123,11 +123,60 @@
         </div>
     </div>
 }
+<p>
+    @Html.ActionLink("Create New", "Create", "ORSDetailsManager", new { ORSId = Convert.ToInt32(Request.Url.Segments.Last()) }, null)
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ORSDetails.RCId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ORSDetails.PAPId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ORSDetails.UACSId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ORSDetails.Amount)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.ListORSDetails)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.RC.Code)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MFOPAP.Code)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UACS.Code)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ORSDetails.Amount)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", "ORSDetailsManager", new { ORSId = Convert.ToInt32(Request.Url.Segments.Last()), id = item.ORSDetails.Id }, null) |
+                @Html.ActionLink("Details", "Details", new { id = item.ORSDetails.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ORSDetails.Id })
+            </td>
+        </tr>
+    }
+
+</table>
 
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
 
 @section Scripts {
+    <script type="text/javascript">
+        $(function () {
+            $(".dropdown").chosen();
+        });
+    </script>
     @Scripts.Render("~/bundles/jqueryval")
 }

@@ -5,65 +5,83 @@
 }
 
 <h2>Index</h2>
+@using (Html.BeginForm())
+{
+    <p>
 
+        <div class="form-group">
+            @Html.Label("Find: ")
+
+            @Html.TextBox("searchString")
+            <input type="submit" value="Search" class="btn btn-primary" />
+        </div>
+    </p>
+}
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.ORSMain.Id)
+            @Html.ActionLink("ORS Number", "Index", new { sortOrder = ViewBag.IdSortParam })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ORSMain.Payee)
+            @Html.ActionLink("Payee", "Index", new { sortOrder = ViewBag.PayeeSortParam })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ORSMain.Office)
+            @Html.ActionLink("Office", "Index", new { sortOrder = ViewBag.OfficeSortParam })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ORSMain.Address)
+            @Html.ActionLink("Address", "Index", new { sortOrder = ViewBag.AddressSortParam })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ORSMain.Particulars)
+            @Html.ActionLink("Particulars", "Index", new { sortOrder = ViewBag.ParticularsSortParam })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ORSMain.Date)
+            @Html.ActionLink("Date", "Index", new { sortOrder = ViewBag.DateSortParam })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ORSMain.Processor)
+            @Html.ActionLink("Processor", "Index", new { sortOrder = ViewBag.ProcessorSortParam })
+        </th>
+        <th>
+            @Html.ActionLink("Amount", "Index", new { sortOrder = ViewBag.AmountSortParam })
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.ORSMain.Id)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ORSMain.Payee)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ORSMain.Office)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ORSMain.Address)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ORSMain.Particulars)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ORSMain.Date)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ORSMain.Processor)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ORSMain.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ORSMain.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ORSMain.Id })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ORSMain.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ORSMain.Payee)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ORSMain.Office)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ORSMain.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ORSMain.Particulars)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ORSMain.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ORSMain.Processor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Total)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ORSMain.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ORSMain.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ORSMain.Id })
+            </td>
+        </tr>
+    }
 
 </table>

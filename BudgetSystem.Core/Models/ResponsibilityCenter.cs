@@ -20,5 +20,6 @@ namespace BudgetSystem.Core.Models
         public string Status { get; set; }
 
 
+        public string Caption { get { return Code + " - " + Name; } }
     }
 }

@@ -15,5 +15,7 @@ namespace BudgetSystem.Core.ViewModels
         public FundSource FundSource { get; set; }
         public FundCluster FundCluster { get; set; }
         public BoxBSignatory BoxB { get; set; }
+
+        public decimal Total { get; set; }
     }
 }

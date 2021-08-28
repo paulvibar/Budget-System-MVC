@@ -7,10 +7,10 @@
 <h2>Create</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>ORSMainInformation</h4>
         <hr />
@@ -26,21 +26,21 @@
         <div class="form-group">
             @Html.LabelFor(model => model.ORSMain.AllotmentCode, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.ORSMain.AllotmentCode, new SelectList(Model.AllotmentClass, "AllotmentCode", "Description"), new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.ORSMain.AllotmentCode, new SelectList(Model.AllotmentClass, "AllotmentCode", "Caption"), new { @class = "form-control dropdown" })
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.ORSMain.FundSource, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.ORSMain.FundSource, new SelectList(Model.FundSource, "Code", "Description"), new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.ORSMain.FundSource, new SelectList(Model.FundSource, "Code", "Caption"), new { @class = "form-control dropdown" })
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.ORSMain.FundCluster, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.ORSMain.FundCluster, new SelectList(Model.FundCluster, "Code", "Description"), new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.ORSMain.FundCluster, new SelectList(Model.FundCluster, "Code", "Caption"), new { @class = "form-control dropdown" })
             </div>
         </div>
 
@@ -71,7 +71,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.ORSMain.Particulars, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.ORSMain.Particulars, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.TextAreaFor(model => model.ORSMain.Particulars, new { @class = "form-control" } )
                 @Html.ValidationMessageFor(model => model.ORSMain.Particulars, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -95,14 +95,14 @@
         <div class="form-group">
             @Html.LabelFor(model => model.ORSMain.BoxBSignatory, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.ORSMain.BoxBSignatory, new SelectList(Model.BoxB, "Name", "Name"), new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.ORSMain.BoxBSignatory, new SelectList(Model.BoxB, "Name", "Name"), new { @class = "form-control dropdown" })
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.ORSMain.BoxBPosition, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.ORSMain.BoxBPosition, new SelectList(Model.BoxB, "Position", "Position"), new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.ORSMain.BoxBPosition, new SelectList(Model.BoxB, "Position", "Position"), new { @class = "form-control dropdown" })
             </div>
         </div>
         <div class="form-group">
@@ -119,12 +119,19 @@
             </div>
         </div>
     </div>
+    @*<p>
+        @if (Model.ORSMain.Id != 0) { Html.ActionLink("Add New List", "Create", "ORSDetailsManager", new { id = Model.ORSMain.Id }, null); }
+    </p>*@
 }
-
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
 
 @section Scripts {
+    <script type="text/javascript">
+        $(function () {
+            $(".dropdown").chosen();
+        });
+    </script>
     @Scripts.Render("~/bundles/jqueryval")
 }

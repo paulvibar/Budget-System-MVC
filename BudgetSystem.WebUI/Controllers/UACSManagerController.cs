@@ -45,7 +45,7 @@ namespace BudgetSystem.WebUI.Controllers
             UACSClass = contextClass.Collection().ToList();
             UACSClassification = contextClassification.Collection().ToList();
             var result = (from o in UACS
-                          join uo in UACSObject on o.GroupId equals uo.Id
+                          join uo in UACSObject on o.ObjectId equals uo.Id
                           join g in UACSGroup on o.GroupId equals g.Id
                           join c in UACSClass on o.ClassId equals c.Id
                           join cc in UACSClassification on o.ClassificationId equals cc.Id
@@ -102,7 +102,7 @@ namespace BudgetSystem.WebUI.Controllers
             {
                 UACSManagerViewModel viewModel = new UACSManagerViewModel();
 
-                viewModel.UACS = new UACS();
+                viewModel.UACS = UACS;
                 viewModel.Objects = contextObject.Collection();
                 viewModel.Groups = contextGroup.Collection();
                 viewModel.Classes = contextClass.Collection();

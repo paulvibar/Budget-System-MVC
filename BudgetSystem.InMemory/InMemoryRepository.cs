@@ -62,6 +62,7 @@ namespace BudgetSystem.InMemory
                 throw new Exception(className + "not found!");
             }
         }
+        
 
         public IQueryable<T> Collection()
         {

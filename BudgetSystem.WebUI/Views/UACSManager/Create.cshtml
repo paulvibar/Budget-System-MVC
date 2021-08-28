@@ -7,10 +7,10 @@
 <h2>Create</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>UACS</h4>
         <hr />
@@ -34,28 +34,28 @@
         <div class="form-group">
             @Html.LabelFor(model => model.UACS.ClassificationId, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.UACS.ClassificationId, new SelectList(Model.Classifications, "Id", "Description"), new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.UACS.ClassificationId, new SelectList(Model.Classifications, "Id", "Caption"), new { @class = "form-control dropdown" })
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.UACS.ClassId, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.UACS.ClassId, new SelectList(Model.Classes, "Id", "Description"), new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.UACS.ClassId, new SelectList(Model.Classes, "Id", "Caption"), new { @class = "form-control dropdown" })
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.UACS.GroupId, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.UACS.GroupId, new SelectList(Model.Groups, "Id", "Description"), new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.UACS.GroupId, new SelectList(Model.Groups, "Id", "Caption"), new { @class = "form-control dropdown" })
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.UACS.ObjectId, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.UACS.ObjectId, new SelectList(Model.Objects, "Id", "Description"), new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.UACS.ObjectId, new SelectList(Model.Objects, "Id", "Caption"), new { @class = "form-control dropdown" })
             </div>
         </div>
 
@@ -72,5 +72,10 @@
 </div>
 
 @section Scripts {
+    <script type="text/javascript">
+        $(function () {
+            $(".dropdown").chosen();
+        });
+    </script>
     @Scripts.Render("~/bundles/jqueryval")
 }

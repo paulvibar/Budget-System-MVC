@@ -1,0 +1,57 @@
+﻿@model IEnumerable<BudgetSystem.Core.ViewModels.ORSDetailsManagerViewModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create", null, new { @class = "linkStyle", id = Convert.ToInt32(Session["orsnumber"]) })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ORSdetails.ORSId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ORSdetails.RCId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ORSdetails.PAPId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ORSdetails.UACSId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ORSdetails.Amount)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ORSdetails.ORSId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ORSdetails.RCId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ORSdetails.PAPId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ORSdetails.UACSId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ORSdetails.Amount)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ORSdetails.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ORSdetails.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ORSdetails.Id })
+        </td>
+    </tr>
+}
+
+</table>
