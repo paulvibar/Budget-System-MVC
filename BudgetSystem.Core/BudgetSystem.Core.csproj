@@ -51,6 +51,7 @@
     <Compile Include="Models\MFOPAP.cs" />
     <Compile Include="Models\ORSDetailsInformation.cs" />
     <Compile Include="Models\ORSMainInformation.cs" />
+    <Compile Include="Models\ReportParam.cs" />
     <Compile Include="Models\ResponsibilityCenter.cs" />
     <Compile Include="Models\Identifier.cs" />
     <Compile Include="Models\UACS.cs" />
@@ -58,6 +59,7 @@
     <Compile Include="Models\UACSClassification.cs" />
     <Compile Include="Models\UACSGroup.cs" />
     <Compile Include="Models\UACSObject.cs" />
+    <Compile Include="Models\Users.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\ORSDetailsItemViewModel.cs" />
     <Compile Include="ViewModels\ORSDetailsManagerViewModel.cs" />

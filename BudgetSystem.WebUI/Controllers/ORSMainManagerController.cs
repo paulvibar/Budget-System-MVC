@@ -1,11 +1,19 @@
 ﻿using BudgetSystem.Core.Contracts;
 using BudgetSystem.Core.Models;
 using BudgetSystem.Core.ViewModels;
+using ClosedXML.Excel;
+using PagedList;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI;
+using System.Web.UI.WebControls;
 
 namespace BudgetSystem.WebUI.Controllers
 {
@@ -57,7 +65,7 @@ namespace BudgetSystem.WebUI.Controllers
             MFOPAP = new List<MFOPAP>();
             UACS = new List<UACS>();
         }
-        public ActionResult Index(string sortOrder, string searchString)
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
 
             ORSMain = context.Collection().ToList();
@@ -66,11 +74,12 @@ namespace BudgetSystem.WebUI.Controllers
             FundSource = contextFundSource.Collection().ToList();
             FundCluster = contextFundCluster.Collection().ToList();
             BoxBSignatory = contextBoxB.Collection().ToList();
+            
             var result = (from o in ORSMain
                           join ac in AllotmentClass on o.AllotmentCode equals ac.AllotmentCode
                           join fs in FundSource on o.FundSource equals fs.Code
                           join fc in FundCluster on o.FundCluster equals fc.Code
-                          join bb in BoxBSignatory on o.BoxBSignatory equals bb.Name
+                          join bb in BoxBSignatory on o.BoxBID equals bb.Id
                           select new ORSItemViewModel()
                           {
                               ORSMain = o,
@@ -78,9 +87,10 @@ namespace BudgetSystem.WebUI.Controllers
                               FundSource = fs,
                               FundCluster = fc,
                               BoxB = bb,
-                              Total = ORSDetails.Where(i => i.ORSId == o.Id).Sum(x => x.Amount)
+                              Total = ORSDetails.Where(i => i.ORSId == o.Id).Sum(x => x.Amount).ToString("#,##0.00")
                           });
 
+            ViewBag.CurrentSort = sortOrder;
             ViewBag.IdSortParam = String.IsNullOrEmpty(sortOrder) ? "IdDesc" : "";
             ViewBag.PayeeSortParam = sortOrder == "payee" ? "payeeDesc" : "payee";
             ViewBag.OfficeSortParam = sortOrder == "office" ? "officeDesc" : "office";
@@ -90,6 +100,14 @@ namespace BudgetSystem.WebUI.Controllers
             ViewBag.ProcessorSortParam = sortOrder == "processor" ? "processorDesc" : "processor";
             ViewBag.AmountSortParam = sortOrder == "amount" ? "amountDesc" : "amount";
             
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
             switch (sortOrder)
             {
                 case "IdDesc":
@@ -153,10 +171,85 @@ namespace BudgetSystem.WebUI.Controllers
                                          r.ORSMain.Processor.Contains(searchString) ||
                                          r.Total.ToString().Contains(searchString));
             }
-
-            return View(result.ToList());
+            int pageSize = 15;
+            int pageNumber = (page ?? 1);
+            return View(result.ToPagedList(pageNumber, pageSize));
+        }
+        public IList<ORSItemViewModel> GetORSList()
+        {
+            ORSMain = context.Collection().ToList();
+            ORSDetails = contextDetails.Collection().ToList();
+            AllotmentClass = contextAllotment.Collection().ToList();
+            FundSource = contextFundSource.Collection().ToList();
+            FundCluster = contextFundCluster.Collection().ToList();
+            BoxBSignatory = contextBoxB.Collection().ToList();
+            ResponsibilityCenter = contextRC.Collection().ToList();
+            MFOPAP = contextPAP.Collection().ToList();
+            UACS = contextUACS.Collection().ToList();
+            var result = (from o in ORSMain
+                          join od in ORSDetails on o.Id equals od.ORSId
+                          join ac in AllotmentClass on o.AllotmentCode equals ac.AllotmentCode
+                          join fs in FundSource on o.FundSource equals fs.Code
+                          join fc in FundCluster on o.FundCluster equals fc.Code
+                          join bb in BoxBSignatory on o.BoxBID equals bb.Id
+                          join rc in ResponsibilityCenter on od.RCId equals rc.Id
+                          join p in MFOPAP on od.PAPId equals p.Id
+                          join u in UACS on od.UACSId equals u.Id
+                          select new ORSItemViewModel()
+                          {
+                              ORSMain = o,
+                              ORSDetails = od,
+                              UACSClass = ac,
+                              FundSource = fs,
+                              FundCluster = fc,
+                              BoxB = bb,
+                              RC = rc,
+                              MFOPAP = p,
+                              UACS = u
+                          }).ToList();
+            return result;
         }
 
+        [HttpPost]
+        public FileResult ExportToExcel()
+        {
+            DataTable dt = new DataTable("All ORS");
+            dt.Columns.AddRange(new DataColumn[15]
+            {
+                new DataColumn("ORS Number"),
+                new DataColumn("Payee"),
+                new DataColumn("Particulars"),
+                new DataColumn("MFOPAP"),
+                new DataColumn("UACS Object Code"),
+                new DataColumn("Amount"),
+                new DataColumn("Date"),
+                new DataColumn("UACS Description"),
+                new DataColumn("Responsibility Center"),
+                new DataColumn("Office Name"),
+                new DataColumn("Allotment Code"),
+                new DataColumn("MFOPAP Description"),
+                new DataColumn("Fund Code"),
+                new DataColumn("Fund Description"),
+                new DataColumn("Fund Cluster")
+            });
+            foreach (var result in GetORSList())
+            {
+                dt.Rows.Add(result.ORSMain.Id, result.ORSMain.Payee, result.ORSMain.Particulars, result.MFOPAP.Code,
+                    result.UACS.Code, result.ORSDetails.Amount.ToString("#,##0.00"), result.ORSMain.Date, result.UACS.Description, result.RC.Code,
+                    result.RC.Name, result.UACSClass.AllotmentCode, result.MFOPAP.Name, result.FundSource.Code, result.FundSource.Description,
+                    result.FundCluster.Code);
+            }
+
+            using (XLWorkbook wb = new XLWorkbook())
+            {
+                wb.Worksheets.Add(dt);
+                using (MemoryStream stream = new MemoryStream())
+                {
+                    wb.SaveAs(stream);
+                    return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "AllORS.xlsx");
+                }
+            }
+        }
         public ActionResult Create()
         {
             ORSMainManagerViewModel viewModel = new ORSMainManagerViewModel();
@@ -247,13 +340,13 @@ namespace BudgetSystem.WebUI.Controllers
                     EditORS.AllotmentCode = ORSMain.AllotmentCode;
                     EditORS.FundSource = ORSMain.FundSource;
                     EditORS.FundCluster = ORSMain.FundCluster;
-                    EditORS.Payee = ORSMain.Payee;
+                    EditORS.Payee = ORSMain.Payee.ToUpper();
                     EditORS.Office = ORSMain.Office;
                     EditORS.Address = ORSMain.Address;
                     EditORS.Particulars = ORSMain.Particulars;
                     EditORS.BoxASignatory = ORSMain.BoxASignatory;
                     EditORS.BoxAPosition = ORSMain.BoxAPosition;
-                    EditORS.BoxBPosition = ORSMain.BoxBPosition;
+                    EditORS.BoxBID = ORSMain.BoxBID;
                     EditORS.Processor = ORSMain.Processor;
 
 
@@ -291,7 +384,7 @@ namespace BudgetSystem.WebUI.Controllers
             {
                 context.Delete(Id);
                 context.Commit();
-                return View(DeleteORS);
+                return RedirectToAction("Index");
             }
 
         }
@@ -321,7 +414,7 @@ namespace BudgetSystem.WebUI.Controllers
                                   join ac in AllotmentClass on o.AllotmentCode equals ac.AllotmentCode
                                   join fs in FundSource on o.FundSource equals fs.Code
                                   join fc in FundCluster on o.FundCluster equals fc.Code
-                                  join bb in BoxBSignatory on o.BoxBSignatory equals bb.Name
+                                  join bb in BoxBSignatory on o.BoxBID equals bb.Id
                                   select new ORSItemViewModel()
                                   {
                                       ORSMain = o,
@@ -329,7 +422,7 @@ namespace BudgetSystem.WebUI.Controllers
                                       FundSource = fs,
                                       FundCluster = fc,
                                       BoxB = bb,
-                                      Total = ORSDetails.Where(i => i.ORSId == o.Id).Sum(x => x.Amount)
+                                      Total = ORSDetails.Where(i => i.ORSId == o.Id).Sum(x => x.Amount).ToString("#,##0.00")
                                   }).Where(i => i.ORSMain.Id == Id).ToList();
 
                 ORSDetails = contextDetails.Collection().ToList();
@@ -346,7 +439,8 @@ namespace BudgetSystem.WebUI.Controllers
                                   ORSDetails = od,
                                   RC = rc,
                                   MFOPAP = p,
-                                  UACS = u
+                                  UACS = u,
+                                  Amount = od.Amount.ToString("#,##0.00")
                               }).Where(i => i.ORSDetails.ORSId == Id).ToList();
 
                 viewModel.ListORSMain = resultMain;
@@ -356,8 +450,99 @@ namespace BudgetSystem.WebUI.Controllers
                 viewModel.FundCluster = contextFundCluster.Collection();
                 viewModel.BoxB = contextBoxB.Collection();
 
+                ViewData["Id"] = Id;
+                
                 return View(viewModel);
             }
+        }
+        public IList<ORSItemViewModel> GetORS(int Id)
+        {
+            ORSMain = context.Collection().ToList();
+            ORSDetails = contextDetails.Collection().ToList();
+            AllotmentClass = contextAllotment.Collection().ToList();
+            FundSource = contextFundSource.Collection().ToList();
+            FundCluster = contextFundCluster.Collection().ToList();
+            BoxBSignatory = contextBoxB.Collection().ToList();
+            ResponsibilityCenter = contextRC.Collection().ToList();
+            MFOPAP = contextPAP.Collection().ToList();
+            UACS = contextUACS.Collection().ToList();
+            var result = (from o in ORSMain
+                          join od in ORSDetails on o.Id equals od.ORSId
+                          join ac in AllotmentClass on o.AllotmentCode equals ac.AllotmentCode
+                          join fs in FundSource on o.FundSource equals fs.Code
+                          join fc in FundCluster on o.FundCluster equals fc.Code
+                          join bb in BoxBSignatory on o.BoxBID equals bb.Id
+                          join rc in ResponsibilityCenter on od.RCId equals rc.Id
+                          join p in MFOPAP on od.PAPId equals p.Id
+                          join u in UACS on od.UACSId equals u.Id
+                          select new ORSItemViewModel()
+                          {
+                              ORSMain = o,
+                              ORSDetails = od,
+                              UACSClass = ac,
+                              FundSource = fs,
+                              FundCluster = fc,
+                              BoxB = bb,
+                              RC = rc,
+                              MFOPAP = p,
+                              UACS = u,
+                              Total = ORSDetails.Where(i => i.ORSId == o.Id).Sum(x => x.Amount).ToString("#,##0.00"),
+                              Date = o.Date.ToString()
+                          }).Where(i => i.ORSMain.Id == Id).ToList();
+            return result;
+        }
+
+        public void GetORSReport(int Id)
+        {
+            ReportParam objReportParams = new ReportParam();
+            var data = GetORSInfo(Id);
+            objReportParams.DataSource = data;
+            objReportParams.ReportTitle = "ORS Info Report";
+            objReportParams.RptFileName = "ORSReport.rdlc";
+            objReportParams.ReportType = "ORSInfoReport";
+            objReportParams.DataSetName = "dsORSReport";
+            this.HttpContext.Session["ReportParam"] = objReportParams;
+        }
+
+        public DataTable GetORSInfo(int Id)
+        {
+            
+            DataTable dt = new DataTable();
+            dt.Columns.AddRange(new DataColumn[22]
+            {
+                new DataColumn("ORSNumber"),
+                new DataColumn("Payee"),
+                new DataColumn("Office"),
+                new DataColumn("Address"),
+                new DataColumn("Particulars"),
+                new DataColumn("MFOPAP"),
+                new DataColumn("UACSObjectCode"),
+                new DataColumn("Amount"),
+                new DataColumn("Date"),
+                new DataColumn("UACSDescription"),
+                new DataColumn("ResponsibilityCenter"),
+                new DataColumn("OfficeName"),
+                new DataColumn("AllotmentCode"),
+                new DataColumn("MFOPAPDescription"),
+                new DataColumn("FundCode"),
+                new DataColumn("FundDescription"),
+                new DataColumn("FundCluster"),
+                new DataColumn("BoxASignatory"),
+                new DataColumn("BoxAPosition"),
+                new DataColumn("BoxBSignatory"),
+                new DataColumn("BoxBPosition"),
+                new DataColumn("Total")
+            });
+            foreach (var result in GetORS(Id))
+            {
+                dt.Rows.Add(result.ORSMain.Caption.ToString(), result.ORSMain.Payee.ToString(), result.ORSMain.Office, result.ORSMain.Address, result.ORSMain.Particulars, result.MFOPAP.Code,
+                    result.UACS.Code, result.ORSDetails.Amount.ToString("#,##0.00"), result.Date, result.UACS.Description, result.RC.Code,
+                    result.RC.Name, result.UACSClass.AllotmentCode, result.MFOPAP.Name, result.FundSource.Code, result.FundSource.Description,
+                    result.FundCluster.Code, result.ORSMain.BoxASignatory, result.ORSMain.BoxAPosition, result.BoxB.Name, result.BoxB.Position,
+                    result.Total);
+            }
+            
+            return dt;
         }
     }
 }

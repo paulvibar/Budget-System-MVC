@@ -126,7 +126,7 @@ namespace BudgetSystem.WebUI.Controllers
             {
                 context.Delete(Id);
                 context.Commit();
-                return View(RCDelete);
+                return RedirectToAction("Index");
             }
 
         }

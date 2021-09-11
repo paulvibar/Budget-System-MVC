@@ -9,6 +9,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using BudgetSystem.WebUI.Models;
+using BudgetSystem.Core.Models;
+using BudgetSystem.Core.Contracts;
 
 namespace BudgetSystem.WebUI.Controllers
 {
@@ -17,15 +19,12 @@ namespace BudgetSystem.WebUI.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private IRepository<Users> usersRepository;
 
-        public AccountController()
-        {
-        }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(IRepository<Users> userRepository )
         {
-            UserManager = userManager;
-            SignInManager = signInManager;
+            this.usersRepository = userRepository;
         }
 
         public ApplicationSignInManager SignInManager
@@ -151,10 +150,24 @@ namespace BudgetSystem.WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.Username, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    //register User
+
+                    Users users = new Users()
+                    {
+                        Username = model.Username,
+                        FullName = model.FullName,
+                        Position = model.Position,
+                        Section = model.Section,
+                        UserId = user.Id
+                    };
+
+                    usersRepository.Insert(users);
+                    usersRepository.Commit();
+
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771

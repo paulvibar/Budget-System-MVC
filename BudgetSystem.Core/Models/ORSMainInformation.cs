@@ -13,6 +13,7 @@ namespace BudgetSystem.Core.Models
     {
         [DataType(DataType.Date, ErrorMessage = "Date only")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [Required]
         public DateTime? Date { get; set; }
         [DisplayName("Allotment Code")]
         public string AllotmentCode { get; set; }
@@ -21,7 +22,22 @@ namespace BudgetSystem.Core.Models
         [DisplayName("Fund Cluster")]
         public string FundCluster { get; set; }
         [Required]
-        public string Payee { get; set; }
+        private string _payee;
+        public string Payee 
+        { 
+            get
+            {
+                if (string.IsNullOrEmpty(_payee))
+                {
+                    return _payee;
+                }
+                return _payee.ToUpper();
+            }
+            set
+            {
+                _payee = value;
+            }
+        }
         public string Office { get; set; }
         public string Address { get; set; }
         [Required]
@@ -33,11 +49,10 @@ namespace BudgetSystem.Core.Models
         [DisplayName("Box A Position")]
         public string BoxAPosition { get; set; }
         [DisplayName("Box B Signatory")]
-        public string BoxBSignatory { get; set; }
-        [DisplayName("Box B Position")]
-        public string BoxBPosition { get; set; }
+        public int BoxBID { get; set; }
         public string Processor { get; set; }
 
-        public List<ORSDetailsInformation> ORSDetails { get; set; }
+        
+        public string Caption { get { return AllotmentCode + "-" + FundSource + "-" +  Date.ToString().Substring(6,4) + "-" + Date.ToString().Substring(3, 2) + "-" + Id.ToString("00000"); } }
     }
 }

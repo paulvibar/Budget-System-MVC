@@ -10,5 +10,6 @@ namespace BudgetSystem.Core.Models
     {
         public string Name { get; set; }
         public string Position { get; set; }
+        public string Caption { get { return Name + " - " + Position; } }
     }
 }

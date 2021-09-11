@@ -93,16 +93,9 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ORSMain.BoxBSignatory, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.ORSMain.BoxBID, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.ORSMain.BoxBSignatory, new SelectList(Model.BoxB, "Name", "Name"), new { @class = "form-control dropdown" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.ORSMain.BoxBPosition, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownListFor(model => model.ORSMain.BoxBPosition, new SelectList(Model.BoxB, "Position", "Position"), new { @class = "form-control dropdown" })
+                @Html.DropDownListFor(model => model.ORSMain.BoxBID, new SelectList(Model.BoxB, "Id", "Caption"), new { @class = "form-control dropdown" })
             </div>
         </div>
         <div class="form-group">

@@ -1,50 +1,59 @@
-﻿@model IEnumerable<BudgetSystem.Core.ViewModels.ORSItemViewModel>
-
+﻿@model IPagedList<BudgetSystem.Core.ViewModels.ORSItemViewModel>
+@using PagedList;
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" />
 @{
     ViewBag.Title = "Index";
 }
 
 <h2>Index</h2>
-@using (Html.BeginForm())
-{
-    <p>
+<div class="form-group">
+    @using (Html.BeginForm())
+    {
+        <p>
 
-        <div class="form-group">
+
             @Html.Label("Find: ")
 
-            @Html.TextBox("searchString")
+            @Html.TextBox("searchString", ViewBag.CurrentFilter as string)
             <input type="submit" value="Search" class="btn btn-primary" />
-        </div>
-    </p>
-}
+
+
+        </p>
+    }
+    @using (Html.BeginForm("ExportToExcel", "ORSMainManager", FormMethod.Post))
+    {
+        <input type="submit" class="btn btn-primary" value="Export" />
+    }
+</div>
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
 <table class="table">
     <tr>
         <th>
-            @Html.ActionLink("ORS Number", "Index", new { sortOrder = ViewBag.IdSortParam })
+            @Html.ActionLink("ORS Number", "Index", new { sortOrder = ViewBag.IdSortParam, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            @Html.ActionLink("Payee", "Index", new { sortOrder = ViewBag.PayeeSortParam })
+            @Html.ActionLink("Payee", "Index", new { sortOrder = ViewBag.PayeeSortParam, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            @Html.ActionLink("Office", "Index", new { sortOrder = ViewBag.OfficeSortParam })
+            @Html.ActionLink("Office", "Index", new { sortOrder = ViewBag.OfficeSortParam, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            @Html.ActionLink("Address", "Index", new { sortOrder = ViewBag.AddressSortParam })
+            @Html.ActionLink("Address", "Index", new { sortOrder = ViewBag.AddressSortParam, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            @Html.ActionLink("Particulars", "Index", new { sortOrder = ViewBag.ParticularsSortParam })
+            @Html.ActionLink("Particulars", "Index", new { sortOrder = ViewBag.ParticularsSortParam, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            @Html.ActionLink("Date", "Index", new { sortOrder = ViewBag.DateSortParam })
+            @Html.ActionLink("Date", "Index", new { sortOrder = ViewBag.DateSortParam, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            @Html.ActionLink("Processor", "Index", new { sortOrder = ViewBag.ProcessorSortParam })
+            @Html.ActionLink("Processor", "Index", new { sortOrder = ViewBag.ProcessorSortParam, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            @Html.ActionLink("Amount", "Index", new { sortOrder = ViewBag.AmountSortParam })
+            @Html.ActionLink("Amount", "Index", new { sortOrder = ViewBag.AmountSortParam, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th></th>
     </tr>
@@ -85,3 +94,8 @@
     }
 
 </table>
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index",
+    new {page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter}))

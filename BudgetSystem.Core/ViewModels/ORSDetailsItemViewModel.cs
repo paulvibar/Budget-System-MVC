@@ -14,6 +14,6 @@ namespace BudgetSystem.Core.ViewModels
         public ResponsibilityCenter RC { get; set; }
         public MFOPAP MFOPAP { get; set; }
         public UACS UACS { get; set; }
-        
+        public string Amount { get; set; }
     }
 }

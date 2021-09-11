@@ -29,29 +29,29 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.ORSdetails.ORSId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ORSdetails.RCId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ORSdetails.PAPId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ORSdetails.UACSId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ORSdetails.Amount)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ORSdetails.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ORSdetails.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ORSdetails.Id })
-        </td>
-    </tr>
-}
-
-</table>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ORSdetails.ORSId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ORSdetails.RCId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ORSdetails.PAPId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ORSdetails.UACSId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ORSdetails.Amount)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ORSdetails.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ORSdetails.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ORSdetails.Id })
+            </td>
+        </tr>
+    }
+</table> 

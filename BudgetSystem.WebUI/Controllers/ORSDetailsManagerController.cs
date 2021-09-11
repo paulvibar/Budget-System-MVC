@@ -125,7 +125,7 @@ namespace BudgetSystem.WebUI.Controllers
 
         [HttpPost]
         [ActionName("Delete")]
-        public ActionResult ConfirmDelete(int Id)
+        public ActionResult ConfirmDelete(int Id, int ORSId)
         {
             ORSDetailsInformation DeleteORSDetails = context.Find(Id);
             if (DeleteORSDetails == null)
@@ -136,7 +136,7 @@ namespace BudgetSystem.WebUI.Controllers
             {
                 context.Delete(Id);
                 context.Commit();
-                return View(DeleteORSDetails);
+                return RedirectToAction("Edit", "ORSMainManager", new { id = ORSId });
             }
 
         }

@@ -4,156 +4,257 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<script>
+    $(document).ready(function () {
+        $("#btnPrint").click(function () {
+            ReportManager.GenerateReport();
+        });
+    });
 
+    var ReportManager = {
+        GenerateReport: function () {
+            var Id = '@ViewData["Id"]';
+            var jsonParam = "";
+            var serviceUrl = "../GetORSReport/" + Id;
+            alert(Id);
+            ReportManager.GetReport(serviceUrl, jsonParam, onFailed);
 
-<div>
-    <h4>ORSMainInformation</h4>
+            function onFailed(error) {
+                alert(error);
+            }
+        },
+
+        GetReport: function (serviceUrl, jsonParams, errorCallback) {
+            jQuery.ajax({
+                url: serviceUrl,
+                async: false,
+                type: "POST",
+                data: "{" + jsonParams + "}",
+                contentType: "application/json; charset=utf-8",
+                success: function () {
+                    window.open('../../Reports/ReportViewer.aspx', ' newtab');
+                },
+                error: errorCallback
+            });
+        }
+    };
+    var ReportHelper = {
+
+    };
+</script>
+
+<div class="container table-bordered" style="width:800px">
+    <input type="button" class="btn btn-primary" id="btnPrint" value="Print" />
     <hr />
     @foreach (var item in Model.ListORSMain)
     {
-        <dl class="dl-horizontal">
-            <dt>
-                @Html.DisplayNameFor(model => model.ORSMain.Date)
-            </dt>
+        <div class="row">
+            <div class="col-md-2">
+                <center>
+                    <img id="imgview" width="90px" src="~/imgs/denrlogo.png" />
+                </center>
+            </div>
+            <div class="col-md-10">
+                <strong>
+                    <h3>Obligation Request and Status</h3>
+                    <h5>Department of Environment and Natural Resources</h5>
+                    <h5>Visayas Ave., Diliman, Quezon City</h5>
+                </strong>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <hr />
+            </div>
+        </div>
+        <h5>
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4"></div>
+                <div class="col-md-4 text-center">
+                    <label class="form-label">No.:&nbsp</label>
 
-            <dd>
-                @Html.DisplayFor(model => model.ORSMain.Date)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.ORSMain.AllotmentCode)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(modelItem => item.UACSClass.Caption)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.ORSMain.FundSource)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(modelItem => item.FundSource.Caption)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.ORSMain.FundCluster)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(modelItem => item.FundCluster.Caption)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.ORSMain.Payee)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.ORSMain.Payee)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.ORSMain.Office)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.ORSMain.Office)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.ORSMain.Address)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.ORSMain.Address)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.ORSMain.Particulars)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.ORSMain.Particulars)
-            </dd>
-        </dl>
-        <table class="table">
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.ORSDetails.RCId)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ORSDetails.PAPId)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ORSDetails.UACSId)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ORSDetails.Amount)
-                </th>
-            </tr>
-
-            @foreach (var item2 in Model.ListORSDetails)
-            {
+                    @Html.DisplayFor(model => model.ORSMain.Caption)
+                </div>
+            </div>
+            <br />
+            <div class="row mt-4 mb-2">
+                <div class="col-md-4">
+                    <label class="form-label">ORS Date:</label>
+                    @Html.DisplayFor(model => model.ORSMain.Date)
+                </div>
+            </div>
+            <br />
+            <div class="row mb-2">
+                <div class="col-md-4">
+                    <label class="form-label">Allotment Class:</label>
+                    @Html.DisplayFor(modelItem => item.UACSClass.Caption)
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Fund Code:</label>
+                    @Html.DisplayFor(modelItem => item.FundSource.Caption)
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Fund Cluster:</label>
+                    @Html.DisplayFor(modelItem => item.FundCluster.Caption)
+                </div>
+            </div>
+            <br />
+            <div class="row mb-2">
+                <div class="col-md-12">
+                    <label class="form-label">Payee:</label>
+                    @Html.DisplayFor(model => model.ORSMain.Payee)
+                </div>
+            </div>
+            <br />
+            <div class="row mb-2">
+                <div class="col-md-12">
+                    <label class="form-label">Office:</label>
+                    @Html.DisplayFor(model => model.ORSMain.Office)
+                </div>
+            </div>
+            <br />
+            <div class="row mb-2">
+                <div class="col-md-12">
+                    <label class="form-label">Address:</label>
+                    @Html.DisplayFor(model => model.ORSMain.Address)
+                </div>
+            </div>
+            <br />
+            <div class="row mb-2">
+                <div class="col-md-12">
+                    <label class="form-label">Particulars:</label>
+                    @Html.DisplayFor(model => model.ORSMain.Particulars)
+                </div>
+            </div>
+            <br />
+            <hr />
+            <table class="table table-bordered">
                 <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item2.RC.Code)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item2.MFOPAP.Code)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item2.UACS.Code)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item2.ORSDetails.Amount)
-                    </td>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ORSDetails.RCId)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ORSDetails.PAPId)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ORSDetails.UACSId)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ORSDetails.Amount)
+                    </th>
                 </tr>
-            }
 
-        </table>
-        <dl class="dl-horizontal">
-            <dt>
-                @Html.DisplayNameFor(model => model.ORSMain.BoxASignatory)
-            </dt>
+                @foreach (var item2 in Model.ListORSDetails)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item2.RC.Code)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item2.MFOPAP.Code)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item2.UACS.Code)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item2.Amount)
+                        </td>
+                    </tr>
+                }
 
-            <dd>
-                @Html.DisplayFor(model => model.ORSMain.BoxASignatory)
-            </dd>
+            </table>
 
-            <dt>
-                @Html.DisplayNameFor(model => model.ORSMain.BoxAPosition)
-            </dt>
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-3"></div>
+                <div class="col-md-3"></div>
+                <div class="col-md-3 text-center">
+                    <label class="form-label">Total:</label>
+                    @Html.DisplayFor(model => item.Total)
+                </div>
+            </div>
+            <hr />
+            <br />
+            <div class="row mb-2">
+                <div class="col-md-6 text-center">
+                    <div class="row table-bordered">
+                        <br />
+                        <br />
+                        <label class="form-label">SIGNATORY BOX A</label>
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-6 text-right">
+                                    <label class="form-label">Box A Signatory:</label>
+                                </div>
+                                <div class="col-md-6 text-left">
+                                    @Html.DisplayFor(model => model.ORSMain.BoxASignatory)
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <br />
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-6 text-right">
+                                    <label class="form-label">Box A Position:</label>
+                                </div>
+                                <div class="col-md-6 text-left">
+                                    @Html.DisplayFor(model => model.ORSMain.BoxAPosition)
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                    </div>
+                </div>
+                <div class="col-md-6 text-center">
+                    <div class="row table-bordered">
+                        <br />
+                        <br />
+                        <label class="form-label">SIGNATORY BOX B</label>
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-6 text-right">
+                                    <label class="form-label">Box B Signatory:</label>
+                                </div>
+                                <div class="col-md-6 text-left">
+                                    @Html.DisplayFor(model => item.BoxB.Name)
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <br />
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-6 text-right">
+                                    <label class="form-label">Box B Position:</label>
+                                </div>
+                                <div class="col-md-6 text-left">
+                                    @Html.DisplayFor(model => item.BoxB.Position)
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                    </div>
+                </div>
+            </div>
 
-            <dd>
-                @Html.DisplayFor(model => model.ORSMain.BoxAPosition)
-            </dd>
+        </h5>
 
-            <dt>
-                @Html.DisplayNameFor(model => model.ORSMain.BoxBSignatory)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.ORSMain.BoxBSignatory)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.ORSMain.BoxBPosition)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.ORSMain.BoxBPosition)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.ORSMain.Processor)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.ORSMain.Processor)
-            </dd>
-
-        </dl>
     }
 </div>
 <p>

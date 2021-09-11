@@ -28,5 +28,6 @@ namespace BudgetSystem.DataAccess.SQL
         public DbSet<FundSource> FundSource { get; set; }
         public DbSet<ORSMainInformation> ORSMainInformation { get; set; }
         public DbSet<ORSDetailsInformation> ORSDetailsInformation { get; set; }
+        public DbSet<Users> Users { get; set; }
     }
 }

@@ -89,6 +89,42 @@
     <Compile Include="Migrations\202108260328443_editname.Designer.cs">
       <DependentUpon>202108260328443_editname.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202108301310433_changesadded.cs" />
+    <Compile Include="Migrations\202108301310433_changesadded.Designer.cs">
+      <DependentUpon>202108301310433_changesadded.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202108301445505_editingtable1.cs" />
+    <Compile Include="Migrations\202108301445505_editingtable1.Designer.cs">
+      <DependentUpon>202108301445505_editingtable1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202108301628542_editBoxB.cs" />
+    <Compile Include="Migrations\202108301628542_editBoxB.Designer.cs">
+      <DependentUpon>202108301628542_editBoxB.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202109020554272_editeddata.cs" />
+    <Compile Include="Migrations\202109020554272_editeddata.Designer.cs">
+      <DependentUpon>202109020554272_editeddata.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202109020640300_editeddate.cs" />
+    <Compile Include="Migrations\202109020640300_editeddate.Designer.cs">
+      <DependentUpon>202109020640300_editeddate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202109060507579_AddUser.cs" />
+    <Compile Include="Migrations\202109060507579_AddUser.Designer.cs">
+      <DependentUpon>202109060507579_AddUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202109060958028_EditUser.cs" />
+    <Compile Include="Migrations\202109060958028_EditUser.Designer.cs">
+      <DependentUpon>202109060958028_EditUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202109061018075_UpdateUser.cs" />
+    <Compile Include="Migrations\202109061018075_UpdateUser.Designer.cs">
+      <DependentUpon>202109061018075_UpdateUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202109070148200_add-migration edituser.cs" />
+    <Compile Include="Migrations\202109070148200_add-migration edituser.Designer.cs">
+      <DependentUpon>202109070148200_add-migration edituser.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SQLRepository.cs" />
@@ -133,6 +169,33 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202108260328443_editname.resx">
       <DependentUpon>202108260328443_editname.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202108301310433_changesadded.resx">
+      <DependentUpon>202108301310433_changesadded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202108301445505_editingtable1.resx">
+      <DependentUpon>202108301445505_editingtable1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202108301628542_editBoxB.resx">
+      <DependentUpon>202108301628542_editBoxB.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202109020554272_editeddata.resx">
+      <DependentUpon>202109020554272_editeddata.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202109020640300_editeddate.resx">
+      <DependentUpon>202109020640300_editeddate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202109060507579_AddUser.resx">
+      <DependentUpon>202109060507579_AddUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202109060958028_EditUser.resx">
+      <DependentUpon>202109060958028_EditUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202109061018075_UpdateUser.resx">
+      <DependentUpon>202109061018075_UpdateUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202109070148200_add-migration edituser.resx">
+      <DependentUpon>202109070148200_add-migration edituser.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
