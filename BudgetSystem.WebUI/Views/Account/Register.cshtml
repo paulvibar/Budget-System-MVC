@@ -50,7 +50,22 @@
     <div class="form-group">
         @Html.LabelFor(m => m.Section, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Section, new { @class = "form-control" })
+            @Html.DropDownList("Section", new List<SelectListItem>
+            {
+                new SelectListItem { Text="Regular Programs Section", Value="Regular Programs Section"},
+                new SelectListItem { Text="Foreign-Assisted, Locally Funded and Special Programs Section", Value="Foreign-Assisted, Locally Funded and Special Programs Section" },
+                new SelectListItem { Text="Line Bureaus, Attached Agencies and Personnel Services Benefit Section", Value="Line Bureaus, Attached Agencies and Personnel Services Benefit Section" },
+                new SelectListItem { Text="Consolidation and Report Compliance Section", Value="Consolidation and Report Compliance Section" },
+                new SelectListItem { Text="Regional Operations and Staff Bureaus Section", Value="Regional Operations and Staff Bureaus Section" },
+                new SelectListItem { Text="Support Services Section", Value="Support Services Section" }
+            }, new { @class = "form-control dropdown" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.Label("User Role", new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @*@Html.DropDownList("Name")*@
+            @Html.DropDownList("UserRoles", (SelectList)ViewBag.Name, new { @class = "form-control dropdown" })
         </div>
     </div>
     <div class="form-group">
@@ -58,8 +73,8 @@
             <input type="submit" class="btn btn-default" value="Register" />
         </div>
     </div>
-}
+    }
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }

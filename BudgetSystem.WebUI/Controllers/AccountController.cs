@@ -20,11 +20,13 @@ namespace BudgetSystem.WebUI.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
         private IRepository<Users> usersRepository;
+        ApplicationDbContext context;
 
 
         public AccountController(IRepository<Users> userRepository )
         {
             this.usersRepository = userRepository;
+            context = new ApplicationDbContext();
         }
 
         public ApplicationSignInManager SignInManager
@@ -74,7 +76,7 @@ namespace BudgetSystem.WebUI.Controllers
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            var result = await SignInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -135,16 +137,17 @@ namespace BudgetSystem.WebUI.Controllers
 
         //
         // GET: /Account/Register
-        [AllowAnonymous]
+        [Authorize(Roles = "Admin")]
         public ActionResult Register()
         {
+            ViewBag.Name = new SelectList(context.Roles.ToList(), "Name", "Name");
             return View();
         }
 
         //
         // POST: /Account/Register
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
@@ -159,25 +162,32 @@ namespace BudgetSystem.WebUI.Controllers
                     Users users = new Users()
                     {
                         Username = model.Username,
+                        Email = model.Email,
                         FullName = model.FullName,
                         Position = model.Position,
                         Section = model.Section,
-                        UserId = user.Id
+                        UserId = user.Id,
+                        Role = model.UserRoles
                     };
 
                     usersRepository.Insert(users);
                     usersRepository.Commit();
 
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
+                    
+                    //Assign Role to user Here     
+                    await this.UserManager.AddToRoleAsync(user.Id, model.UserRoles);
+                    //Ends Here   
+                    
                     return RedirectToAction("Index", "Home");
                 }
+                ViewBag.Name = new SelectList(context.Roles.ToList(), "Name", "Name");
                 AddErrors(result);
             }
 

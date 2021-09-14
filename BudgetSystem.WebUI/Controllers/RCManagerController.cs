@@ -23,12 +23,13 @@ namespace BudgetSystem.WebUI.Controllers
             PAPcontext = PAPContext;
             Identifiercontext = Status;
         }
+        [Authorize(Roles = "Admin")]
         public ActionResult Index()
         {
             List<ResponsibilityCenter> RCs = context.Collection().ToList();
             return View(RCs);
         }
-
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
             RCManagerViewModel viewModel = new RCManagerViewModel();
@@ -38,7 +39,7 @@ namespace BudgetSystem.WebUI.Controllers
             viewModel.Identifiers = Identifiercontext.Collection();
             return View(viewModel);
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public ActionResult Create(ResponsibilityCenter RC)
         {
@@ -54,6 +55,7 @@ namespace BudgetSystem.WebUI.Controllers
                 return RedirectToAction("Index");
             }
         }
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int Id)
         {
             ResponsibilityCenter RC = context.Find(Id);
@@ -71,7 +73,7 @@ namespace BudgetSystem.WebUI.Controllers
                 return View(viewModel);
             }
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public ActionResult Edit(ResponsibilityCenter RC, int Id)
         {
@@ -98,7 +100,7 @@ namespace BudgetSystem.WebUI.Controllers
                 }
             }
         }
-
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int Id)
         {
             ResponsibilityCenter RCDelete = context.Find(Id);
@@ -112,7 +114,7 @@ namespace BudgetSystem.WebUI.Controllers
             }
             
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ActionName("Delete")]
         public ActionResult ConfirmDelete(int Id)

@@ -125,6 +125,14 @@
     <Compile Include="Migrations\202109070148200_add-migration edituser.Designer.cs">
       <DependentUpon>202109070148200_add-migration edituser.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202109121520288_Add_Role.cs" />
+    <Compile Include="Migrations\202109121520288_Add_Role.Designer.cs">
+      <DependentUpon>202109121520288_Add_Role.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202109140235398_EditiedFields.cs" />
+    <Compile Include="Migrations\202109140235398_EditiedFields.Designer.cs">
+      <DependentUpon>202109140235398_EditiedFields.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SQLRepository.cs" />
@@ -196,6 +204,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202109070148200_add-migration edituser.resx">
       <DependentUpon>202109070148200_add-migration edituser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202109121520288_Add_Role.resx">
+      <DependentUpon>202109121520288_Add_Role.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202109140235398_EditiedFields.resx">
+      <DependentUpon>202109140235398_EditiedFields.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

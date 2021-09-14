@@ -22,9 +22,16 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Admin", "Admin", "Home")</li>
-                    <li>@Html.ActionLink("Obligation", "Index", "ORSMainManager")</li>
+                    <li>@Html.ActionLink("Dashboard", "Index", "Home")</li>
+                    @if (Request.IsAuthenticated && User.IsInRole("Admin"))
+                    {
+                        <li>@Html.ActionLink("Admin", "Admin", "Home")</li>
+                    }
+                    @if ((Request.IsAuthenticated && User.IsInRole("Admin")) || (Request.IsAuthenticated && User.IsInRole("Processor")))
+                    {
+                        <li>@Html.ActionLink("Obligation", "Index", "ORSMainManager")</li>
+
+                    }
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -38,9 +45,14 @@
         </footer>
     </div>
 
-    
+
     @Scripts.Render("~/bundles/bootstrap")
     <script src="~/Scripts/chosen.jquery.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $(".dropdown").chosen();
+        });
+    </script>
     @RenderSection("scripts", required: false)
 </body>
 </html>

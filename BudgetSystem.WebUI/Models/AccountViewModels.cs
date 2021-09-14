@@ -49,8 +49,8 @@ namespace BudgetSystem.WebUI.Models
     public class LoginViewModel
     {
         [Required]
-        [Display(Name = "Email")]
-        public string Email { get; set; }
+        [Display(Name = "Username")]
+        public string Username { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
@@ -63,6 +63,9 @@ namespace BudgetSystem.WebUI.Models
 
     public class RegisterViewModel
     {
+        [Required]
+        [Display(Name = "UserRoles")]
+        public string UserRoles { get; set; }
         [Required]
         [Display(Name = "Email")]
         public string Email { get; set; }
@@ -79,6 +82,7 @@ namespace BudgetSystem.WebUI.Models
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
         [Required]
+        [Display(Name = "Full Name")]
         public string FullName { get; set; }
         [Required]
         public string Position { get; set; }

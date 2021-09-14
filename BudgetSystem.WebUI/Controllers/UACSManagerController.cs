@@ -37,6 +37,7 @@ namespace BudgetSystem.WebUI.Controllers
             UACSClass = new List<UACSClass>();
             UACSClassification = new List<UACSClassification>();
         }
+        [Authorize(Roles = "Admin")]
         public ActionResult Index()
         {
             UACS = context.Collection().ToList();
@@ -61,7 +62,7 @@ namespace BudgetSystem.WebUI.Controllers
 
             return View(result);
         }
-
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
             UACSManagerViewModel viewModel = new UACSManagerViewModel();
@@ -74,7 +75,7 @@ namespace BudgetSystem.WebUI.Controllers
 
             return View(viewModel);
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public ActionResult Create(UACS UACS)
         {
@@ -90,7 +91,7 @@ namespace BudgetSystem.WebUI.Controllers
                 return RedirectToAction("Index");
             }
         }
-
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int Id)
         {
             UACS UACS = context.Find(Id);
@@ -111,7 +112,7 @@ namespace BudgetSystem.WebUI.Controllers
                 return View(viewModel);
             }
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public ActionResult Edit(UACS UACS, int Id)
         {
@@ -141,6 +142,7 @@ namespace BudgetSystem.WebUI.Controllers
                 }
             }
         }
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int Id)
         {
             UACS DeleteUACS = context.Find(Id);
@@ -154,7 +156,7 @@ namespace BudgetSystem.WebUI.Controllers
             }
 
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ActionName("Delete")]
         public ActionResult ConfirmDelete(int Id)

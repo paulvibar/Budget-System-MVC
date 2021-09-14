@@ -16,7 +16,6 @@
             var Id = '@ViewData["Id"]';
             var jsonParam = "";
             var serviceUrl = "../GetORSReport/" + Id;
-            alert(Id);
             ReportManager.GetReport(serviceUrl, jsonParam, onFailed);
 
             function onFailed(error) {
@@ -42,14 +41,16 @@
 
     };
 </script>
-
+<br />
+<input type="button" class="btn btn-primary" id="btnPrint" value="Print" />
+<br />
 <div class="container table-bordered" style="width:800px">
-    <input type="button" class="btn btn-primary" id="btnPrint" value="Print" />
-    <hr />
+    <br />
     @foreach (var item in Model.ListORSMain)
     {
         <div class="row">
             <div class="col-md-2">
+                <br />
                 <center>
                     <img id="imgview" width="90px" src="~/imgs/denrlogo.png" />
                 </center>

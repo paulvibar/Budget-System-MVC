@@ -21,12 +21,13 @@ namespace BudgetSystem.WebUI.Controllers
             this.context = context;
             this.IDcontext = IDcontext;
         }
+        [Authorize(Roles = "Admin")]
         public ActionResult Index()
         {
             List<MFOPAP> PAPs = context.Collection().ToList();
             return View(PAPs);
         }
-
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
             PAPManagerViewModel viewModel = new PAPManagerViewModel();
@@ -36,7 +37,7 @@ namespace BudgetSystem.WebUI.Controllers
 
             return View(viewModel);
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public ActionResult Create(MFOPAP PAP)
         {
@@ -52,6 +53,7 @@ namespace BudgetSystem.WebUI.Controllers
                 return RedirectToAction("Index");
             }
         }
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int Id)
         {
             MFOPAP PAP = context.Find(Id);
@@ -69,7 +71,7 @@ namespace BudgetSystem.WebUI.Controllers
                 return View(viewModel);
             }
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public ActionResult Edit(MFOPAP PAP, int Id)
         {
@@ -97,7 +99,7 @@ namespace BudgetSystem.WebUI.Controllers
                 }
             }
         }
-
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int Id)
         {
             MFOPAP DeletePAP = context.Find(Id);
@@ -111,7 +113,7 @@ namespace BudgetSystem.WebUI.Controllers
             }
 
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ActionName("Delete")]
         public ActionResult ConfirmDelete(int Id)
