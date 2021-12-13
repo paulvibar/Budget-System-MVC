@@ -1,10 +1,10 @@
 ﻿@model BudgetSystem.Core.ViewModels.ORSMainManagerViewModel
-
+@using Microsoft.AspNet.Identity
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Obligation";
 }
 
-<h2>Create</h2>
+<h2>Obligation Request and Status</h2>
 
 
 @using (Html.BeginForm())
@@ -12,13 +12,12 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>ORSMainInformation</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
             @Html.LabelFor(model => model.ORSMain.Date, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.ORSMain.Date, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.ORSMain.Date, new { htmlAttributes = new { @class = "form-control create-date" } })
                 @Html.ValidationMessageFor(model => model.ORSMain.Date, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -71,7 +70,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.ORSMain.Particulars, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextAreaFor(model => model.ORSMain.Particulars, new { @class = "form-control" } )
+                @Html.TextAreaFor(model => model.ORSMain.Particulars, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.ORSMain.Particulars, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -101,7 +100,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.ORSMain.Processor, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.ORSMain.Processor, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.ORSMain.Processor, new { htmlAttributes = new { @class = "form-control", @Value = User.Identity.GetUserName(), @readonly = "readonly" } })
                 @Html.ValidationMessageFor(model => model.ORSMain.Processor, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -113,13 +112,12 @@
         </div>
     </div>
     @*<p>
-        @if (Model.ORSMain.Id != 0) { Html.ActionLink("Add New List", "Create", "ORSDetailsManager", new { id = Model.ORSMain.Id }, null); }
-    </p>*@
+            @if (Model.ORSMain.Id != 0) { Html.ActionLink("Add New List", "Create", "ORSDetailsManager", new { id = Model.ORSMain.Id }, null); }
+        </p>*@
 }
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
-
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }

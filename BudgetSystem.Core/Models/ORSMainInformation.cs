@@ -21,8 +21,9 @@ namespace BudgetSystem.Core.Models
         public string FundSource { get; set; }
         [DisplayName("Fund Cluster")]
         public string FundCluster { get; set; }
-        [Required]
+        
         private string _payee;
+        [Required]
         public string Payee 
         { 
             get

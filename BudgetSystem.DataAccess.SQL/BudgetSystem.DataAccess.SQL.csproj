@@ -133,6 +133,46 @@
     <Compile Include="Migrations\202109140235398_EditiedFields.Designer.cs">
       <DependentUpon>202109140235398_EditiedFields.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202109150223284_PayeeRequired.cs" />
+    <Compile Include="Migrations\202109150223284_PayeeRequired.Designer.cs">
+      <DependentUpon>202109150223284_PayeeRequired.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202112060821291_modifyingRC.cs" />
+    <Compile Include="Migrations\202112060821291_modifyingRC.Designer.cs">
+      <DependentUpon>202112060821291_modifyingRC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202112060901523_modifyorsdetails.cs" />
+    <Compile Include="Migrations\202112060901523_modifyorsdetails.Designer.cs">
+      <DependentUpon>202112060901523_modifyorsdetails.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202112121336307_addingpap.cs" />
+    <Compile Include="Migrations\202112121336307_addingpap.Designer.cs">
+      <DependentUpon>202112121336307_addingpap.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202112121352254_editingrc.cs" />
+    <Compile Include="Migrations\202112121352254_editingrc.Designer.cs">
+      <DependentUpon>202112121352254_editingrc.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202112121354236_editrc.cs" />
+    <Compile Include="Migrations\202112121354236_editrc.Designer.cs">
+      <DependentUpon>202112121354236_editrc.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202112121414471_rcadd.cs" />
+    <Compile Include="Migrations\202112121414471_rcadd.Designer.cs">
+      <DependentUpon>202112121414471_rcadd.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202112121421193_rcedit.cs" />
+    <Compile Include="Migrations\202112121421193_rcedit.Designer.cs">
+      <DependentUpon>202112121421193_rcedit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202112130245012_modifyingors.cs" />
+    <Compile Include="Migrations\202112130245012_modifyingors.Designer.cs">
+      <DependentUpon>202112130245012_modifyingors.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202112130313414_modifieddb.cs" />
+    <Compile Include="Migrations\202112130313414_modifieddb.Designer.cs">
+      <DependentUpon>202112130313414_modifieddb.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SQLRepository.cs" />
@@ -210,6 +250,36 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202109140235398_EditiedFields.resx">
       <DependentUpon>202109140235398_EditiedFields.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202109150223284_PayeeRequired.resx">
+      <DependentUpon>202109150223284_PayeeRequired.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202112060821291_modifyingRC.resx">
+      <DependentUpon>202112060821291_modifyingRC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202112060901523_modifyorsdetails.resx">
+      <DependentUpon>202112060901523_modifyorsdetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202112121336307_addingpap.resx">
+      <DependentUpon>202112121336307_addingpap.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202112121352254_editingrc.resx">
+      <DependentUpon>202112121352254_editingrc.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202112121354236_editrc.resx">
+      <DependentUpon>202112121354236_editrc.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202112121414471_rcadd.resx">
+      <DependentUpon>202112121414471_rcadd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202112121421193_rcedit.resx">
+      <DependentUpon>202112121421193_rcedit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202112130245012_modifyingors.resx">
+      <DependentUpon>202112130245012_modifyingors.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202112130313414_modifieddb.resx">
+      <DependentUpon>202112130313414_modifieddb.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

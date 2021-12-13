@@ -44,7 +44,19 @@
     <div class="form-group">
         @Html.LabelFor(m => m.Position, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Position, new { @class = "form-control" })
+            @Html.DropDownList("Position", new List<SelectListItem>
+            {
+                new SelectListItem { Text="Administrative Officer V", Value="Administrative Officer V"},
+                new SelectListItem { Text="Administrative Officer IV", Value="Administrative Officer IV" },
+                new SelectListItem { Text="Administrative Officer II", Value="Administrative Officer II" },
+                new SelectListItem { Text="Administrative Assistant II", Value="Administrative Assistant II" },
+                new SelectListItem { Text="Administrative Assistant", Value="Administrative Assistant" },
+                new SelectListItem { Text="Budget Data Management Assistant", Value="Budget Data Management Assistant" },
+                new SelectListItem { Text="Chief Administrative Officer", Value="Chief Administrative Officer" },
+                new SelectListItem { Text="Data Management Officer", Value="Data Management Officer" },
+                new SelectListItem { Text="Office Support Staff", Value="Office Support Staff" },
+                new SelectListItem { Text="Project Evaluation Officer II", Value="Project Evaluation Officer II" }
+            }, new { @class = "form-control dropdown" })
         </div>
     </div>
     <div class="form-group">
@@ -57,7 +69,8 @@
                 new SelectListItem { Text="Line Bureaus, Attached Agencies and Personnel Services Benefit Section", Value="Line Bureaus, Attached Agencies and Personnel Services Benefit Section" },
                 new SelectListItem { Text="Consolidation and Report Compliance Section", Value="Consolidation and Report Compliance Section" },
                 new SelectListItem { Text="Regional Operations and Staff Bureaus Section", Value="Regional Operations and Staff Bureaus Section" },
-                new SelectListItem { Text="Support Services Section", Value="Support Services Section" }
+                new SelectListItem { Text="Support Services Section", Value="Support Services Section" },
+                new SelectListItem { Text="Chief, Budget Division", Value="Chief, Budget Division" }
             }, new { @class = "form-control dropdown" })
         </div>
     </div>

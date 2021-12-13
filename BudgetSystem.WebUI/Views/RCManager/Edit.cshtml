@@ -1,9 +1,9 @@
 ﻿@model BudgetSystem.Core.ViewModels.RCManagerViewModel
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "RC Management";
 }
 
-<h2>Edit</h2>
+<h2>Responsibilty Center</h2>
 
 
 @using (Html.BeginForm())
@@ -11,7 +11,6 @@
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>ResponsibilityCenter</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     <div class="form-group">
@@ -41,7 +40,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.RC.PAP, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.RC.PAP, new SelectList(Model.PAPs, "Code", "Name"), new {@class = "form-control"})
+                @Html.DropDownListFor(model => model.RC.PAP, new SelectList(Model.PAPs, "Id", "Name"), new {@class = "form-control dropdown"})
             </div>
         </div>
 

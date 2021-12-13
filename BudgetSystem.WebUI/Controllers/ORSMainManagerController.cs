@@ -2,6 +2,7 @@
 using BudgetSystem.Core.Models;
 using BudgetSystem.Core.ViewModels;
 using ClosedXML.Excel;
+using Microsoft.AspNet.Identity;
 using PagedList;
 using System;
 using System.Collections.Generic;
@@ -75,6 +76,7 @@ namespace BudgetSystem.WebUI.Controllers
             FundCluster = contextFundCluster.Collection().ToList();
             BoxBSignatory = contextBoxB.Collection().ToList();
             
+
             var result = (from o in ORSMain
                           join ac in AllotmentClass on o.AllotmentCode equals ac.AllotmentCode
                           join fs in FundSource on o.FundSource equals fs.Code
@@ -90,6 +92,10 @@ namespace BudgetSystem.WebUI.Controllers
                               Total = ORSDetails.Where(i => i.ORSId == o.Id).Sum(x => x.Amount).ToString("#,##0.00")
                           });
 
+            if(User.IsInRole("Processor"))
+            {
+                result = result.Where(r => r.ORSMain.Processor == User.Identity.GetUserName());
+            }
             ViewBag.CurrentSort = sortOrder;
             ViewBag.IdSortParam = String.IsNullOrEmpty(sortOrder) ? "IdDesc" : "";
             ViewBag.PayeeSortParam = sortOrder == "payee" ? "payeeDesc" : "payee";
@@ -193,7 +199,7 @@ namespace BudgetSystem.WebUI.Controllers
                           join fc in FundCluster on o.FundCluster equals fc.Code
                           join bb in BoxBSignatory on o.BoxBID equals bb.Id
                           join rc in ResponsibilityCenter on od.RCId equals rc.Id
-                          join p in MFOPAP on od.PAPId equals p.Id
+                          join p in MFOPAP on rc.PAP equals p.Id
                           join u in UACS on od.UACSId equals u.Id
                           select new ORSItemViewModel()
                           {
@@ -274,6 +280,14 @@ namespace BudgetSystem.WebUI.Controllers
             }
             else
             {
+                if(ORSMain.Office == null)
+                {
+                    ORSMain.Office = "N/A";
+                }
+                if (ORSMain.Address == null)
+                {
+                    ORSMain.Address = "N/A";
+                }
                 context.Insert(ORSMain);
                 context.Commit();
                 int x = ORSMain.Id;
@@ -295,28 +309,65 @@ namespace BudgetSystem.WebUI.Controllers
             }
             else
             {
-                ORSMainManagerViewModel viewModel = new ORSMainManagerViewModel();
+                if (User.IsInRole("Admin"))
+                {
+                    ORSMainManagerViewModel viewModel = new ORSMainManagerViewModel();
 
-                viewModel.ORSMain = ORSMain;
-                //viewModel.ListORSDetails = contextDetails.Collection().Where(i => i.ORSId == Id).ToList();
-                var result = (from od in ORSDetails
-                              join rc in ResponsibilityCenter on od.RCId equals rc.Id
-                              join p in MFOPAP on od.PAPId equals p.Id
-                              join u in UACS on od.UACSId equals u.Id
-                              select new ORSDetailsItemViewModel()
-                              {
-                                  ORSDetails = od,
-                                  RC = rc,
-                                  MFOPAP = p,
-                                  UACS = u
-                              }).Where(i => i.ORSDetails.ORSId == Id).ToList();
-                viewModel.ListORSDetails = result;
-                viewModel.AllotmentClass = contextAllotment.Collection();
-                viewModel.FundSource = contextFundSource.Collection();
-                viewModel.FundCluster = contextFundCluster.Collection();
-                viewModel.BoxB = contextBoxB.Collection();
+                    viewModel.ORSMain = ORSMain;
+                    //viewModel.ListORSDetails = contextDetails.Collection().Where(i => i.ORSId == Id).ToList();
+                    var result = (from od in ORSDetails
+                                  join rc in ResponsibilityCenter on od.RCId equals rc.Id
+                                  join p in MFOPAP on rc.PAP equals p.Id
+                                  join u in UACS on od.UACSId equals u.Id
+                                  select new ORSDetailsItemViewModel()
+                                  {
+                                      ORSDetails = od,
+                                      RC = rc,
+                                      MFOPAP = p,
+                                      UACS = u,
+                                      Amount = od.Amount.ToString("#,##0.00")
+                                  }).Where(i => i.ORSDetails.ORSId == Id).ToList();
+                    viewModel.ListORSDetails = result;
+                    viewModel.AllotmentClass = contextAllotment.Collection();
+                    viewModel.FundSource = contextFundSource.Collection();
+                    viewModel.FundCluster = contextFundCluster.Collection();
+                    viewModel.BoxB = contextBoxB.Collection();
 
-                return View(viewModel);
+                    return View(viewModel);
+                }
+                else if (ORSMain.Processor == User.Identity.GetUserName())
+                {
+                    ORSMainManagerViewModel viewModel = new ORSMainManagerViewModel();
+
+                    viewModel.ORSMain = ORSMain;
+                    //viewModel.ListORSDetails = contextDetails.Collection().Where(i => i.ORSId == Id).ToList();
+                    var result = (from od in ORSDetails
+                                  join rc in ResponsibilityCenter on od.RCId equals rc.Id
+                                  join p in MFOPAP on rc.PAP equals p.Id
+                                  join u in UACS on od.UACSId equals u.Id
+                                  select new ORSDetailsItemViewModel()
+                                  {
+                                      ORSDetails = od,
+                                      RC = rc,
+                                      MFOPAP = p,
+                                      UACS = u,
+                                      Amount = od.Amount.ToString("#,##0.00")
+                                  }).Where(i => i.ORSDetails.ORSId == Id).ToList();
+                    viewModel.ListORSDetails = result;
+                    viewModel.AllotmentClass = contextAllotment.Collection();
+                    viewModel.FundSource = contextFundSource.Collection();
+                    viewModel.FundCluster = contextFundCluster.Collection();
+                    viewModel.BoxB = contextBoxB.Collection();
+
+                    return View(viewModel);
+                    
+                }
+                else
+                {
+
+                    return HttpNotFound();
+
+                }
             }
         }
 
@@ -330,64 +381,131 @@ namespace BudgetSystem.WebUI.Controllers
             }
             else
             {
-                if (!ModelState.IsValid)
+                if (User.IsInRole("Admin"))
                 {
-                    return View(ORSMain);
+                    if (!ModelState.IsValid)
+                    {
+                        return View(ORSMain);
+                    }
+                    else
+                    {
+                        EditORS.Date = ORSMain.Date;
+                        EditORS.AllotmentCode = ORSMain.AllotmentCode;
+                        EditORS.FundSource = ORSMain.FundSource;
+                        EditORS.FundCluster = ORSMain.FundCluster;
+                        EditORS.Payee = ORSMain.Payee.ToUpper();
+                        if(ORSMain.Office == null)
+                        {
+                            ORSMain.Office = "N/A";
+                        }
+                        EditORS.Office = ORSMain.Office;
+                        if (ORSMain.Address == null)
+                        {
+                            ORSMain.Address = "N/A";
+                        }
+                        EditORS.Address = ORSMain.Address;
+                        EditORS.Particulars = ORSMain.Particulars;
+                        EditORS.BoxASignatory = ORSMain.BoxASignatory;
+                        EditORS.BoxAPosition = ORSMain.BoxAPosition;
+                        EditORS.BoxBID = ORSMain.BoxBID;
+                        EditORS.Processor = ORSMain.Processor;
+
+                        
+
+                        context.Commit();
+                        int x = ORSMain.Id;
+                        return RedirectToAction("Edit", new { id = x });
+                    }
+                    
+                }
+                else if(ORSMain.Processor == User.Identity.GetUserName())
+                {
+                    if (!ModelState.IsValid)
+                    {
+                        return View(ORSMain);
+                    }
+                    else
+                    {
+                        EditORS.Date = ORSMain.Date;
+                        EditORS.AllotmentCode = ORSMain.AllotmentCode;
+                        EditORS.FundSource = ORSMain.FundSource;
+                        EditORS.FundCluster = ORSMain.FundCluster;
+                        EditORS.Payee = ORSMain.Payee.ToUpper();
+                        if (ORSMain.Office == null)
+                        {
+                            ORSMain.Office = "N/A";
+                        }
+                        EditORS.Office = ORSMain.Office;
+                        if (ORSMain.Address == null)
+                        {
+                            ORSMain.Address = "N/A";
+                        }
+                        EditORS.Address = ORSMain.Address;
+                        EditORS.Particulars = ORSMain.Particulars;
+                        EditORS.BoxASignatory = ORSMain.BoxASignatory;
+                        EditORS.BoxAPosition = ORSMain.BoxAPosition;
+                        EditORS.BoxBID = ORSMain.BoxBID;
+                        EditORS.Processor = ORSMain.Processor;
+
+
+                        context.Commit();
+                        int x = ORSMain.Id;
+                        return RedirectToAction("Edit", new { id = x });
+                    }
                 }
                 else
                 {
-                    EditORS.Date = ORSMain.Date;
-                    EditORS.AllotmentCode = ORSMain.AllotmentCode;
-                    EditORS.FundSource = ORSMain.FundSource;
-                    EditORS.FundCluster = ORSMain.FundCluster;
-                    EditORS.Payee = ORSMain.Payee.ToUpper();
-                    EditORS.Office = ORSMain.Office;
-                    EditORS.Address = ORSMain.Address;
-                    EditORS.Particulars = ORSMain.Particulars;
-                    EditORS.BoxASignatory = ORSMain.BoxASignatory;
-                    EditORS.BoxAPosition = ORSMain.BoxAPosition;
-                    EditORS.BoxBID = ORSMain.BoxBID;
-                    EditORS.Processor = ORSMain.Processor;
-
-
-                    context.Commit();
-                    int x = ORSMain.Id;
-                    return RedirectToAction("Edit", new { id = x });
+                    return HttpNotFound();
                 }
+                
             }
         }
 
-        public ActionResult Delete(int Id)
-        {
-            ORSMainInformation DeleteORS = context.Find(Id);
-            if (DeleteORS == null)
-            {
-                return HttpNotFound();
-            }
-            else
-            {
-                return View(DeleteORS);
-            }
+        //public ActionResult Delete(int Id)
+        //{
+        //    ORSMainInformation DeleteORS = context.Find(Id);
+        //    if (DeleteORS == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    else
+        //    {
+        //        if (DeleteORS.Processor != User.Identity.GetUserName())
+        //        {
+        //            return HttpNotFound();
+        //        }
+        //        else
+        //        {
+        //            return View(DeleteORS);
+        //        }
+        //    }
 
-        }
+        //}
 
-        [HttpPost]
-        [ActionName("Delete")]
-        public ActionResult ConfirmDelete(int Id)
-        {
-            ORSMainInformation DeleteORS = context.Find(Id);
-            if (DeleteORS == null)
-            {
-                return HttpNotFound();
-            }
-            else
-            {
-                context.Delete(Id);
-                context.Commit();
-                return RedirectToAction("Index");
-            }
+        //[HttpPost]
+        //[ActionName("Delete")]
+        //public ActionResult ConfirmDelete(int Id)
+        //{
+        //    ORSMainInformation DeleteORS = context.Find(Id);
+        //    if (DeleteORS == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    else
+        //    {
+        //        if (DeleteORS.Processor != User.Identity.GetUserName())
+        //        {
+        //            return HttpNotFound();
+        //        }
+        //        else
+        //        {
+        //            context.Delete(Id);
+        //            context.Commit();
+        //            return RedirectToAction("Index");
+        //        }
+        //    }
 
-        }
+        //}
 
         public ActionResult Details(int Id)
         {
@@ -432,7 +550,7 @@ namespace BudgetSystem.WebUI.Controllers
 
                 var result = (from od in ORSDetails
                               join rc in ResponsibilityCenter on od.RCId equals rc.Id
-                              join p in MFOPAP on od.PAPId equals p.Id
+                              join p in MFOPAP on rc.PAP equals p.Id
                               join u in UACS on od.UACSId equals u.Id
                               select new ORSDetailsItemViewModel()
                               {
@@ -473,7 +591,7 @@ namespace BudgetSystem.WebUI.Controllers
                           join fc in FundCluster on o.FundCluster equals fc.Code
                           join bb in BoxBSignatory on o.BoxBID equals bb.Id
                           join rc in ResponsibilityCenter on od.RCId equals rc.Id
-                          join p in MFOPAP on od.PAPId equals p.Id
+                          join p in MFOPAP on rc.PAP equals p.Id
                           join u in UACS on od.UACSId equals u.Id
                           select new ORSItemViewModel()
                           {
@@ -536,7 +654,7 @@ namespace BudgetSystem.WebUI.Controllers
             foreach (var result in GetORS(Id))
             {
                 dt.Rows.Add(result.ORSMain.Caption.ToString(), result.ORSMain.Payee.ToString(), result.ORSMain.Office, result.ORSMain.Address, result.ORSMain.Particulars, result.MFOPAP.Code,
-                    result.UACS.Code, result.ORSDetails.Amount.ToString("#,##0.00"), result.Date, result.UACS.Description, result.RC.Code,
+                    result.UACS.Code, result.ORSDetails.Amount.ToString("#,##0.00"), result.Date.Substring(0, 11), result.UACS.Description, result.RC.Code,
                     result.RC.Name, result.UACSClass.AllotmentCode, result.MFOPAP.Name, result.FundSource.Code, result.FundSource.Description,
                     result.FundCluster.Code, result.ORSMain.BoxASignatory, result.ORSMain.BoxAPosition, result.BoxB.Name, result.BoxB.Position,
                     result.Total);

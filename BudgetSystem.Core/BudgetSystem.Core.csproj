@@ -66,6 +66,7 @@
     <Compile Include="ViewModels\ORSItemViewModel.cs" />
     <Compile Include="ViewModels\ORSMainManagerViewModel.cs" />
     <Compile Include="ViewModels\PAPManagerViewModel.cs" />
+    <Compile Include="ViewModels\RCItemViewModel.cs" />
     <Compile Include="ViewModels\RCManagerViewModel.cs" />
     <Compile Include="ViewModels\UACSItemViewModel.cs" />
     <Compile Include="ViewModels\UACSManagerViewModel.cs" />

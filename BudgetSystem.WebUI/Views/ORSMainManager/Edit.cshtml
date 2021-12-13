@@ -1,10 +1,10 @@
 ﻿@model BudgetSystem.Core.ViewModels.ORSMainManagerViewModel
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Obligation";
 }
 
-<h2>Edit</h2>
+<h2>Obligation Request and Status</h2>
 
 
 @using (Html.BeginForm())
@@ -12,7 +12,6 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>ORSMainInformation</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.ORSMain.Id)
@@ -28,21 +27,21 @@
         <div class="form-group">
             @Html.LabelFor(model => model.ORSMain.AllotmentCode, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.ORSMain.AllotmentCode, new SelectList(Model.AllotmentClass, "AllotmentCode", "Caption"), new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.ORSMain.AllotmentCode, new SelectList(Model.AllotmentClass, "AllotmentCode", "Caption"), new { @class = "form-control dropdown" })
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.ORSMain.FundSource, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.ORSMain.FundSource, new SelectList(Model.FundSource, "Code", "Caption"), new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.ORSMain.FundSource, new SelectList(Model.FundSource, "Code", "Caption"), new { @class = "form-control dropdown" })
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.ORSMain.FundCluster, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.ORSMain.FundCluster, new SelectList(Model.FundCluster, "Code", "Caption"), new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.ORSMain.FundCluster, new SelectList(Model.FundCluster, "Code", "Caption"), new { @class = "form-control dropdown" })
             </div>
         </div>
 
@@ -73,7 +72,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.ORSMain.Particulars, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.ORSMain.Particulars, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.TextAreaFor(model => model.ORSMain.Particulars, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.ORSMain.Particulars, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -97,15 +96,23 @@
         <div class="form-group">
             @Html.LabelFor(model => model.ORSMain.BoxBID, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.ORSMain.BoxBID, new SelectList(Model.BoxB, "Id", "Caption"), new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.ORSMain.BoxBID, new SelectList(Model.BoxB, "Id", "Caption"), new { @class = "form-control dropdown" })
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.ORSMain.Processor, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.ORSMain.Processor, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ORSMain.Processor, "", new { @class = "text-danger" })
+                @if (Request.IsAuthenticated && User.IsInRole("Admin"))
+                {
+                    @Html.EditorFor(model => model.ORSMain.Processor, new { htmlAttributes = new { @class = "form-control"} })
+                    @Html.ValidationMessageFor(model => model.ORSMain.Processor, "", new { @class = "text-danger" })
+                }
+                @if (Request.IsAuthenticated && !User.IsInRole("Admin"))
+                {
+                    @Html.EditorFor(model => model.ORSMain.Processor, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.ORSMain.Processor, "", new { @class = "text-danger" })
+                }
             </div>
         </div>
 
@@ -125,7 +132,7 @@
             @Html.DisplayNameFor(model => model.ORSDetails.RCId)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ORSDetails.PAPId)
+            @Html.DisplayName("MFO/PAP")
         </th>
         <th>
             @Html.DisplayNameFor(model => model.ORSDetails.UACSId)
@@ -149,7 +156,7 @@
                 @Html.DisplayFor(modelItem => item.UACS.Code)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ORSDetails.Amount)
+                @Html.DisplayFor(modelItem => item.Amount)
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", "ORSDetailsManager", new { ORSId = Convert.ToInt32(Request.Url.Segments.Last()), id = item.ORSDetails.Id }, null) |

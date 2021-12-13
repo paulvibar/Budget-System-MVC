@@ -19,6 +19,8 @@ namespace BudgetSystem.WebUI.Controllers
         IRepository<UACS> UACS;
         // GET: RCManager
 
+        List<ResponsibilityCenter> ResponsibilityCenter;
+        List<MFOPAP> MFOPAP;
         public ORSDetailsManagerController(IRepository<ORSDetailsInformation> Context, IRepository<ORSMainInformation> ORSContext,IRepository<ResponsibilityCenter> RCContext, IRepository<MFOPAP> PAPContext, IRepository<UACS> UACSContext)
         {
             context = Context;
@@ -36,10 +38,20 @@ namespace BudgetSystem.WebUI.Controllers
         public ActionResult Create(int ORSId)
         {
             ORSDetailsManagerViewModel viewModel = new ORSDetailsManagerViewModel();
-            
+            ResponsibilityCenter = RCcontext.Collection().ToList();
+            MFOPAP = PAPcontext.Collection().ToList();
             viewModel.ORSdetails = new ORSDetailsInformation();
             viewModel.ORSNumber = ORSId;
-            viewModel.RC = RCcontext.Collection();
+            var result = (from r in ResponsibilityCenter
+                          join m in MFOPAP on r.PAP equals m.Id
+                          select new RCItemViewModel()
+                          {
+                              RC = r,
+                              MFOPAP = m,
+                              Id = r.Id,
+                              Caption = r.Code + " - " + r.Name + " (" + m.Name + ")"
+                          }).AsEnumerable();
+            viewModel.RCs = result;
             viewModel.PAP = PAPcontext.Collection();
             viewModel.UACS = UACS.Collection();
             return View(viewModel);
@@ -63,6 +75,9 @@ namespace BudgetSystem.WebUI.Controllers
         public ActionResult Edit(int Id, int ORSId)
         {
             ORSDetailsInformation ORSDetails = context.Find(Id);
+
+            ResponsibilityCenter = RCcontext.Collection().ToList();
+            MFOPAP = PAPcontext.Collection().ToList();
             if (ORSDetails == null)
             {
                 return HttpNotFound();
@@ -74,9 +89,19 @@ namespace BudgetSystem.WebUI.Controllers
 
                 viewModel.ORSdetails = ORSDetails;
                 viewModel.ORSNumber = ORSId;
-                viewModel.RC = RCcontext.Collection();
+                var result = (from r in ResponsibilityCenter
+                              join m in MFOPAP on r.PAP equals m.Id
+                              select new RCItemViewModel()
+                              {
+                                  RC = r,
+                                  MFOPAP = m,
+                                  Id = r.Id,
+                                  Caption = r.Code + " - " + r.Name + " (" + m.Name + ")"
+                              }).AsEnumerable();
+                viewModel.RCs = result;
                 viewModel.PAP = PAPcontext.Collection();
                 viewModel.UACS = UACS.Collection();
+                
                 return View(viewModel);
             }
         }
@@ -98,7 +123,7 @@ namespace BudgetSystem.WebUI.Controllers
                 else
                 {
                     EditORSDetails.RCId = ORSDetails.RCId;
-                    EditORSDetails.PAPId = ORSDetails.PAPId;
+                    //EditORSDetails.PAPId = ORSDetails.PAPId;
                     EditORSDetails.UACSId = ORSDetails.UACSId;
                     EditORSDetails.Amount = ORSDetails.Amount;
 
@@ -140,5 +165,6 @@ namespace BudgetSystem.WebUI.Controllers
             }
 
         }
+
     }
 }

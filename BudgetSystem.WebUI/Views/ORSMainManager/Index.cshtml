@@ -1,12 +1,14 @@
 ﻿@model IPagedList<BudgetSystem.Core.ViewModels.ORSItemViewModel>
 @using PagedList;
 @using PagedList.Mvc;
+@using Microsoft.AspNet.Identity
 <link href="~/Content/PagedList.css" rel="stylesheet" />
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Obligation";
 }
 
-<h2>Index</h2>
+<h2>Obligation Request and Status</h2>
+<br />
 <div class="form-group">
     @using (Html.BeginForm())
     {
@@ -87,8 +89,15 @@
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.ORSMain.Id }) |
-                @Html.ActionLink("Details", "Details", new { id = item.ORSMain.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.ORSMain.Id })
+                @Html.ActionLink("Details", "Details", new { id = item.ORSMain.Id })
+                @*@if (Request.IsAuthenticated && User.Identity.GetUserName() == item.ORSMain.Processor)
+                {
+
+                    @Html.ActionLink("Delete", "Delete", new
+                    {
+                        id = item.ORSMain.Id
+                    })
+                }*@
             </td>
         </tr>
     }
@@ -98,4 +107,4 @@
 Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
 @Html.PagedListPager(Model, page => Url.Action("Index",
-    new {page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter}))
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))

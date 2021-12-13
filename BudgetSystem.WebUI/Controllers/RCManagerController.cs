@@ -27,7 +27,16 @@ namespace BudgetSystem.WebUI.Controllers
         public ActionResult Index()
         {
             List<ResponsibilityCenter> RCs = context.Collection().ToList();
-            return View(RCs);
+            List<MFOPAP> PAPs = PAPcontext.Collection().ToList();
+
+            var result = (from r in RCs
+                          join p in PAPs on r.PAP equals p.Id
+                          select new RCItemViewModel()
+                          {
+                              RC = r,
+                              MFOPAP = p
+                          });
+            return View(result);
         }
         [Authorize(Roles = "Admin")]
         public ActionResult Create()

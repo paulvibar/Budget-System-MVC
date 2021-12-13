@@ -1,10 +1,10 @@
-﻿@model IEnumerable<BudgetSystem.Core.Models.ResponsibilityCenter>
+﻿@model IEnumerable<BudgetSystem.Core.ViewModels.RCItemViewModel>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "RC Management";
 }
 
-<h2>Index</h2>
+<h2>Responsibilty Center</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -12,19 +12,19 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Code)
+            @Html.DisplayNameFor(model => model.RC.Code)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Name)
+            @Html.DisplayNameFor(model => model.RC.Name)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Acronym)
+            @Html.DisplayNameFor(model => model.RC.Acronym)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.PAP)
+            @Html.DisplayNameFor(model => model.RC.PAP)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Status)
+            @Html.DisplayNameFor(model => model.RC.Status)
         </th>
         <th></th>
     </tr>
@@ -32,23 +32,23 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Code)
+            @Html.DisplayFor(modelItem => item.RC.Code)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Name)
+            @Html.DisplayFor(modelItem => item.RC.Name)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Acronym)
+            @Html.DisplayFor(modelItem => item.RC.Acronym)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.PAP)
+            @Html.DisplayFor(modelItem => item.MFOPAP.Name)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Status)
+            @Html.DisplayFor(modelItem => item.RC.Status)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            @Html.ActionLink("Edit", "Edit", new { id=item.RC.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.RC.Id })
         </td>
     </tr>
 }

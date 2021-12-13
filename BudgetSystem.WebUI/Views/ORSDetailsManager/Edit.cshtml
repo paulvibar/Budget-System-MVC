@@ -1,7 +1,7 @@
 ﻿@model BudgetSystem.Core.ViewModels.ORSDetailsManagerViewModel
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Obligation";
 }
 
 <h2>Edit</h2>
@@ -12,7 +12,6 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>ORSDetailsInformation</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.ORSdetails.Id)
@@ -21,7 +20,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.ORSdetails.ORSId, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.ORSdetails.ORSId, new { htmlAttributes = new { @class = "form-control", @Value = Model.ORSNumber } })
+                @Html.EditorFor(model => model.ORSdetails.ORSId, new { htmlAttributes = new { @class = "form-control", @Value = Model.ORSNumber, @readonly = "readonly" } })
                 @Html.ValidationMessageFor(model => model.ORSdetails.ORSId, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -29,16 +28,16 @@
         <div class="form-group">
             @Html.LabelFor(model => model.ORSdetails.RCId, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.ORSdetails.RCId, new SelectList(Model.RC, "Id", "Caption"), new { @class = "form-control dropdown" })
+                @Html.DropDownListFor(model => model.ORSdetails.RCId, new SelectList(Model.RCs, "Id", "Caption"), new { @class = "form-control dropdown" })
             </div>
         </div>
 
-        <div class="form-group">
+        @*<div class="form-group">
             @Html.LabelFor(model => model.ORSdetails.PAPId, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownListFor(model => model.ORSdetails.PAPId, new SelectList(Model.PAP, "Id", "Caption"), new { @class = "form-control dropdown" })
             </div>
-        </div>
+        </div>*@
 
         <div class="form-group">
             @Html.LabelFor(model => model.ORSdetails.UACSId, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -64,7 +63,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to List", "Edit", "ORSMainManager", new { id = Model.ORSNumber }, null)
 </div>
 
 @section Scripts {

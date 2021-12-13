@@ -16,10 +16,10 @@ namespace BudgetSystem.Core.Models
         public string Name { get; set; }
         public string Acronym { get; set; }
         [DisplayName("P/A/P Code")]
-        public string PAP { get; set; }
+        [ForeignKey("MFOPAP")]
+        public int PAP { get; set; }
         public string Status { get; set; }
-
-
         public string Caption { get { return Code + " - " + Name; } }
+        public MFOPAP MFOPAP { get; set; }
     }
 }

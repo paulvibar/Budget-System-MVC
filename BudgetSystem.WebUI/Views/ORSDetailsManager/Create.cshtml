@@ -1,7 +1,7 @@
 ﻿@model BudgetSystem.Core.ViewModels.ORSDetailsManagerViewModel
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Obligation";
 }
 
 <h2>Create</h2>
@@ -26,16 +26,16 @@
         <div class="form-group">
             @Html.LabelFor(model => model.ORSdetails.RCId, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.ORSdetails.RCId, new SelectList(Model.RC, "Id", "Caption"), new { @class = "form-control dropdown" })
+                @Html.DropDownListFor(model => model.ORSdetails.RCId, new SelectList(Model.RCs, "Id", "Caption"), new { @class = "form-control dropdown RCselect"})
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.ORSdetails.PAPId, htmlAttributes: new { @class = "control-label col-md-2" })
+        @*<div class="form-group">
+            @Html.Label(model => model.ORSdetails.PAPId, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownListFor(model => model.ORSdetails.PAPId, new SelectList(Model.PAP, "Id", "Caption"), new { @class = "form-control dropdown" })
             </div>
-        </div>
+        </div>*@
 
         <div class="form-group">
             @Html.LabelFor(model => model.ORSdetails.UACSId, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -61,9 +61,8 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index", "ORSDetailsManager", new { id = Model.ORSNumber }, null)
+    @Html.ActionLink("Back to List", "Edit", "ORSMainManager", new { id = Model.ORSNumber }, null)
 </div>
-
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
