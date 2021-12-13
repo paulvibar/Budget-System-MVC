@@ -1,56 +1,79 @@
-﻿@model IEnumerable<BudgetSystem.Core.ViewModels.RCItemViewModel>
-
+﻿@model IPagedList<BudgetSystem.Core.ViewModels.RCItemViewModel>
+@using PagedList;
+@using PagedList.Mvc;
+@using Microsoft.AspNet.Identity
 @{
     ViewBag.Title = "RC Management";
 }
 
 <h2>Responsibilty Center</h2>
+<br />
+<div class="form-group">
+    @using (Html.BeginForm())
+    {
+        <p>
 
+
+            @Html.Label("Find: ")
+
+            @Html.TextBox("searchString", ViewBag.CurrentFilter as string)
+            <input type="submit" value="Search" class="btn btn-primary" />
+
+
+        </p>
+    }
+</div>
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.RC.Code)
+            @Html.ActionLink("Responsibility Center Code", "Index", new { sortOrder = ViewBag.CodeSortParam, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.RC.Name)
+            @Html.ActionLink("Office Name", "Index", new { sortOrder = ViewBag.NameSortParam, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.RC.Acronym)
+            @Html.ActionLink("Acronym", "Index", new { sortOrder = ViewBag.AcronymSortParam, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.RC.PAP)
+            @Html.ActionLink("P/A/P Code", "Index", new { sortOrder = ViewBag.PAPSortParam, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.RC.Status)
+            @Html.ActionLink("Status", "Index", new { sortOrder = ViewBag.StatusSortParam, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.RC.Code)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.RC.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.RC.Acronym)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.MFOPAP.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.RC.Status)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.RC.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.RC.Id })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.RC.Code)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RC.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RC.Acronym)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MFOPAP.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RC.Status)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.RC.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.RC.Id })
+            </td>
+        </tr>
+    }
 
 </table>
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))

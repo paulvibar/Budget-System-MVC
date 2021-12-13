@@ -1,6 +1,7 @@
 ﻿using BudgetSystem.Core.Contracts;
 using BudgetSystem.Core.Models;
 using BudgetSystem.Core.ViewModels;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,7 +39,7 @@ namespace BudgetSystem.WebUI.Controllers
             UACSClassification = new List<UACSClassification>();
         }
         [Authorize(Roles = "Admin")]
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
             UACS = context.Collection().ToList();
             UACSObject = contextObject.Collection().ToList();
@@ -59,8 +60,73 @@ namespace BudgetSystem.WebUI.Controllers
                               UACSClassification = cc
                           });
 
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.CodeSortParam = String.IsNullOrEmpty(sortOrder) ? "codeDesc" : "";
+            ViewBag.DescriptionSortParam = sortOrder == "description" ? "descriptionDesc" : "description";
+            ViewBag.ClassificationSortParam = sortOrder == "classification" ? "classificationDesc" : "classification";
+            ViewBag.ClassSortParam = sortOrder == "class" ? "classDesc" : "class";
+            ViewBag.GroupSortParam = sortOrder == "group" ? "groupDesc" : "group";
+            ViewBag.ObjectSortParam = sortOrder == "object" ? "objectDesc" : "object";
 
-            return View(result);
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+            switch (sortOrder)
+            {
+                case "codeDesc":
+                    result = result.OrderByDescending(r => r.UACS.Code);
+                    break;
+                case "description":
+                    result = result.OrderBy(r => r.UACS.Description);
+                    break;
+                case "descriptionDesc":
+                    result = result.OrderByDescending(r => r.UACS.Description);
+                    break;
+                case "classification":
+                    result = result.OrderBy(r => r.UACSClassification.Description);
+                    break;
+                case "classificationDesc":
+                    result = result.OrderByDescending(r => r.UACSClassification.Description);
+                    break;
+                case "class":
+                    result = result.OrderBy(r => r.UACSClass.Description);
+                    break;
+                case "classDesc":
+                    result = result.OrderByDescending(r => r.UACSClass.Description);
+                    break;
+                case "group":
+                    result = result.OrderBy(r => r.UACSGroup.Description);
+                    break;
+                case "groupDesc":
+                    result = result.OrderByDescending(r => r.UACSGroup.Description);
+                    break;
+                case "object":
+                    result = result.OrderBy(r => r.UACSObject.Description);
+                    break;
+                case "objectDesc":
+                    result = result.OrderByDescending(r => r.UACSObject.Description);
+                    break;
+                default:
+                    result = result.OrderBy(r => r.UACS.Code);
+                    break;
+            }
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                result = result.Where(r => r.UACS.Code.ToString().Contains(searchString) ||
+                                         r.UACS.Description.Contains(searchString) ||
+                                         r.UACSClassification.Description.Contains(searchString) ||
+                                         r.UACSClass.Description.Contains(searchString) ||
+                                         r.UACSGroup.Description.Contains(searchString) ||
+                                         r.UACSObject.Description.Contains(searchString));
+            }
+            int pageSize = 15;
+            int pageNumber = (page ?? 1);
+            return View(result.ToPagedList(pageNumber, pageSize));
         }
         [Authorize(Roles = "Admin")]
         public ActionResult Create()

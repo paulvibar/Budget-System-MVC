@@ -2,6 +2,7 @@
 using BudgetSystem.Core.Models;
 using BudgetSystem.Core.ViewModels;
 using BudgetSystem.InMemory;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,10 +23,62 @@ namespace BudgetSystem.WebUI.Controllers
             this.IDcontext = IDcontext;
         }
         [Authorize(Roles = "Admin")]
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
             List<MFOPAP> PAPs = context.Collection().ToList();
-            return View(PAPs);
+            var result = PAPs.AsEnumerable();
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.CodeSortParam = String.IsNullOrEmpty(sortOrder) ? "codeDesc" : "";
+            ViewBag.NameSortParam = sortOrder == "name" ? "nameDesc" : "name";
+            ViewBag.TypeSortParam = sortOrder == "type" ? "typeDesc" : "type";
+            ViewBag.StatusSortParam = sortOrder == "status" ? "statusDesc" : "status";
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+            switch (sortOrder)
+            {
+                case "codeDesc":
+                    result = result.OrderByDescending(r => r.Code);
+                    break;
+                case "name":
+                    result = result.OrderBy(r => r.Name);
+                    break;
+                case "nameDesc":
+                    result = result.OrderByDescending(r => r.Name);
+                    break;
+                case "type":
+                    result = result.OrderBy(r => r.Type);
+                    break;
+                case "typeDesc":
+                    result = result.OrderByDescending(r => r.Type);
+                    break;
+                case "status":
+                    result = result.OrderBy(r => r.Status);
+                    break;
+                case "statusDesc":
+                    result = result.OrderByDescending(r => r.Status);
+                    break;
+                default:
+                    result = result.OrderBy(r => r.Code);
+                    break;
+            }
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                result = result.Where(r => r.Code.ToString().Contains(searchString) ||
+                                         r.Name.Contains(searchString) ||
+                                         r.Type.Contains(searchString) ||
+                                         r.Status.Contains(searchString));
+            }
+            int pageSize = 15;
+            int pageNumber = (page ?? 1);
+            return View(result.ToPagedList(pageNumber, pageSize));
+
         }
         [Authorize(Roles = "Admin")]
         public ActionResult Create()

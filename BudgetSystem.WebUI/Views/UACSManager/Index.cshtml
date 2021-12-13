@@ -1,63 +1,86 @@
-﻿@model IEnumerable<BudgetSystem.Core.ViewModels.UACSItemViewModel>
-
+﻿@model IPagedList<BudgetSystem.Core.ViewModels.UACSItemViewModel>
+@using PagedList;
+@using PagedList.Mvc;
+@using Microsoft.AspNet.Identity
 @{
     ViewBag.Title = "UACS Management";
 }
 
 <h2>Unified Accounts Code Structure</h2>
+<br />
+<div class="form-group">
+    @using (Html.BeginForm())
+    {
+        <p>
 
+
+            @Html.Label("Find: ")
+
+            @Html.TextBox("searchString", ViewBag.CurrentFilter as string)
+            <input type="submit" value="Search" class="btn btn-primary" />
+
+
+        </p>
+    }
+</div>
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.UACS.Code)
+            @Html.ActionLink("Code", "Index", new { sortOrder = ViewBag.CodeSortParam, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.UACS.Description)
+            @Html.ActionLink("Sub-Object Description", "Index", new { sortOrder = ViewBag.DescriptionSortParam, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.UACSClassification.Description)
+            @Html.ActionLink("Classification Description", "Index", new { sortOrder = ViewBag.ClassificationSortParam, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.UACSClass.Description)
+            @Html.ActionLink("Class Description", "Index", new { sortOrder = ViewBag.ClassSortParam, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.UACSGroup.Description)
+            @Html.ActionLink("Group Description", "Index", new { sortOrder = ViewBag.GroupSortParam, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.UACSObject.Description)
+            @Html.ActionLink("Object Description", "Index", new { sortOrder = ViewBag.ObjectSortParam, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.UACS.Code)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UACS.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UACSClassification.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UACSClass.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UACSGroup.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UACSObject.Description)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.UACS.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.UACS.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.UACS.Id })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.UACS.Code)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UACS.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UACSClassification.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UACSClass.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UACSGroup.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UACSObject.Description)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.UACS.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.UACS.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.UACS.Id })
+            </td>
+        </tr>
+    }
 
 </table>
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))

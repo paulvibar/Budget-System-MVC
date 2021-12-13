@@ -7,6 +7,7 @@ using BudgetSystem.Core.Contracts;
 using BudgetSystem.Core.Models;
 using BudgetSystem.Core.ViewModels;
 using BudgetSystem.InMemory;
+using PagedList;
 
 namespace BudgetSystem.WebUI.Controllers
 {
@@ -24,7 +25,7 @@ namespace BudgetSystem.WebUI.Controllers
             Identifiercontext = Status;
         }
         [Authorize(Roles = "Admin")]
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
             List<ResponsibilityCenter> RCs = context.Collection().ToList();
             List<MFOPAP> PAPs = PAPcontext.Collection().ToList();
@@ -36,7 +37,66 @@ namespace BudgetSystem.WebUI.Controllers
                               RC = r,
                               MFOPAP = p
                           });
-            return View(result);
+
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.CodeSortParam = String.IsNullOrEmpty(sortOrder) ? "codeDesc" : "";
+            ViewBag.NameSortParam = sortOrder == "name" ? "nameDesc" : "name";
+            ViewBag.AcronymSortParam = sortOrder == "acronym" ? "acronymDesc" : "acronym";
+            ViewBag.PAPSortParam = sortOrder == "pap" ? "papDesc" : "pap";
+            ViewBag.StatusSortParam = sortOrder == "status" ? "statusDesc" : "status";
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+            switch (sortOrder)
+            {
+                case "codeDesc":
+                    result = result.OrderByDescending(r => r.RC.Code);
+                    break;
+                case "name":
+                    result = result.OrderBy(r => r.RC.Name);
+                    break;
+                case "nameDesc":
+                    result = result.OrderByDescending(r => r.RC.Name);
+                    break;
+                case "acronym":
+                    result = result.OrderBy(r => r.RC.Acronym);
+                    break;
+                case "acronymDesc":
+                    result = result.OrderByDescending(r => r.RC.Acronym);
+                    break;
+                case "pap":
+                    result = result.OrderBy(r => r.MFOPAP.Name);
+                    break;
+                case "papDesc":
+                    result = result.OrderByDescending(r => r.MFOPAP.Name);
+                    break;
+                case "status":
+                    result = result.OrderBy(r => r.RC.Status);
+                    break;
+                case "statusDesc":
+                    result = result.OrderByDescending(r => r.RC.Status);
+                    break;
+                default:
+                    result = result.OrderBy(r => r.RC.Code);
+                    break;
+            }
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                result = result.Where(r => r.RC.Code.ToString().Contains(searchString) ||
+                                         r.RC.Name.Contains(searchString) ||
+                                         r.RC.Acronym.Contains(searchString) ||
+                                         r.MFOPAP.Name.Contains(searchString) ||
+                                         r.RC.Status.Contains(searchString));
+            }
+            int pageSize = 15;
+            int pageNumber = (page ?? 1);
+            return View(result.ToPagedList(pageNumber, pageSize));
         }
         [Authorize(Roles = "Admin")]
         public ActionResult Create()
